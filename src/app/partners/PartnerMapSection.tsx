@@ -25,24 +25,9 @@ export function PartnerMapSection() {
         <span className="text-[10px] text-muted-foreground">徳島市内の加盟店</span>
       </div>
       <PartnerMap />
-      <div className="mt-2 flex items-baseline gap-3 text-[10px] text-muted-foreground">
-        <span className="inline-flex items-baseline gap-1">
-          <span
-            className="inline-block h-2.5 w-2.5 rounded-full"
-            style={{ background: '#e11d48' }}
-            aria-hidden
-          />
-          自社運営サロン
-        </span>
-        <span className="inline-flex items-baseline gap-1">
-          <span
-            className="inline-block h-2.5 w-2.5 rounded-full"
-            style={{ background: '#0d0d0d' }}
-            aria-hidden
-          />
-          提携加盟店
-        </span>
-      </div>
+      <p className="mt-2 text-[10px] text-muted-foreground">
+        ピンをタップすると店舗の詳細が見られます
+      </p>
     </section>
   );
 }

@@ -3968,6 +3968,87 @@ export const DEMO_EVENT_COMMENTS: EventComment[] = [
   },
 ];
 
+// ========== お知らせ（運営からのアナウンス） ==========
+
+export type AnnouncementCategory = 'event' | 'feature' | 'campaign' | 'maintenance' | 'important';
+
+export const ANNOUNCEMENT_CATEGORY_LABEL: Record<AnnouncementCategory, string> = {
+  event: 'イベント',
+  feature: '新機能',
+  campaign: 'キャンペーン',
+  maintenance: 'メンテナンス',
+  important: '重要',
+};
+
+export interface Announcement {
+  id: string;
+  category: AnnouncementCategory;
+  title: string;
+  body: string;
+  published_at: string;
+  pinned?: boolean;
+}
+
+export const DEMO_ANNOUNCEMENTS: Announcement[] = [
+  {
+    id: 'a-008',
+    category: 'event',
+    title: '恋フェスジャパン Vol.5 チケット受付中',
+    body: '2026年6月14日（日）ゆめタウン徳島にて、恋フェスジャパン Vol.5 を開催します。2部制・各150名・参加費¥6,000。AI相性診断で席順が決まる新方式を導入。残席わずかのためお早めにお申し込みください。',
+    published_at: '2026-05-14T10:00:00+09:00',
+    pinned: true,
+  },
+  {
+    id: 'a-007',
+    category: 'feature',
+    title: '恋の通知表に「印象マップ」を追加しました',
+    body: '見た目フィードバックを人型図で可視化する「印象マップ」機能を追加。眉毛・髪型・服装など、参加者からの評価が一目で分かるようになりました。各項目は点数化され、磨きどころが明確になります。',
+    published_at: '2026-05-13T15:00:00+09:00',
+  },
+  {
+    id: 'a-006',
+    category: 'campaign',
+    title: '友達紹介キャンペーン｜美容券プレゼント',
+    body: 'お友達を紹介すると、紹介者・被紹介者の双方に美容券をプレゼント。梅プラン¥5,000、竹プラン¥10,000、松プラン¥40,000相当。マイページの「友達紹介」から専用リンクを発行できます。',
+    published_at: '2026-05-10T12:00:00+09:00',
+  },
+  {
+    id: 'a-005',
+    category: 'feature',
+    title: '加盟店マップを公開しました',
+    body: '「磨く」ページに徳島市内の加盟店マップを追加。お近くのサロンを地図から探せます。来店QRをスキャンすると会員価格が適用されます。',
+    published_at: '2026-05-08T11:00:00+09:00',
+  },
+  {
+    id: 'a-004',
+    category: 'important',
+    title: '本人確認・年齢確認の運用について',
+    body: '安心・安全なご利用のため、本人確認（年齢確認を含む）を必須としています。マイページの「本人確認」より、身分証のアップロードをお願いします。確認完了後、すべての機能がご利用いただけます。',
+    published_at: '2026-05-05T09:00:00+09:00',
+  },
+  {
+    id: 'a-003',
+    category: 'maintenance',
+    title: 'システムメンテナンス完了のお知らせ',
+    body: '2026年5月3日 深夜に実施したシステムメンテナンスは予定通り完了しました。ご協力ありがとうございました。',
+    published_at: '2026-05-03T06:00:00+09:00',
+  },
+  {
+    id: 'a-002',
+    category: 'feature',
+    title: '12タイプ恋愛診断「12恋神」リリース',
+    body: '愛着スタイルと恋愛動機を掛け合わせた12タイプの恋愛診断をリリースしました。24問・所要3分。あなたの恋愛の傾向と相性の良いタイプが分かります。',
+    published_at: '2026-04-28T14:00:00+09:00',
+  },
+  {
+    id: 'a-001',
+    category: 'important',
+    title: 'MIRAIZ（ミライズ）へのサービス名称変更',
+    body: 'KOIFES よりサービス名称を「MIRAIZ（ミライズ）」へ変更しました。「未来（mirai）」を「磨く（izu）」——出会う前に自分を整え、リアルとアプリで継続的に磨いていく、というコンセプトを込めています。',
+    published_at: '2026-04-20T10:00:00+09:00',
+  },
+];
+
 // ========== Magazine（恋愛コラムCMS） ==========
 
 export const DEMO_ARTICLES: MagazineArticle[] = [

@@ -20,6 +20,7 @@ import {
   Check,
   Camera,
   Gift,
+  Bell,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
@@ -89,9 +90,6 @@ export default async function MyPage() {
               {profile.bio}
             </p>
           )}
-
-          {/* ============= 将来魅力度予測カード（最上位・改善余地を見える化） ============= */}
-          <FutureAttractionCard profile={profile} />
 
           {/* ============= プロフィール編集 ============= */}
           <Link href="/mypage/edit" className="mt-6 block">
@@ -228,6 +226,7 @@ export default async function MyPage() {
               <GridMenuItem href="/premium" Icon={Gem} label="プレミアム" sub={DEMO_USER_STATE.premium ? '加入中' : '未加入'} highlight />
               <GridMenuItem href="/packages" Icon={HeartHandshake} label="個別コーチング" sub="2〜4ヶ月" />
               <GridMenuItem href="/magazine" Icon={BookOpen} label="マガジン" sub="徳島の婚活" />
+              <GridMenuItem href="/news" Icon={Bell} label="お知らせ" sub="運営から" />
             </div>
           </section>
 
@@ -442,65 +441,3 @@ function profileCompletionPct(profile: UserProfile): number {
   return Math.round((filled / fields.length) * 100);
 }
 
-// 現在 → 全項目埋めた場合の「魅力度予測」カード
-function FutureAttractionCard({ profile }: { profile: UserProfile }) {
-  const current = profileCompletionPct(profile);
-  // 完成度を魅力度スコアに変換（基準=完成度・補正でLikeを最大2.5倍にする想定）
-  const currentAttraction = 60 + Math.round(current * 0.35); // 60〜95
-  const potentialAttraction = 95;
-  const likeMultiplier = Math.round((potentialAttraction / Math.max(currentAttraction, 1)) * 10) / 10;
-  const isMaxed = current >= 95;
-
-  return (
-    <Link
-      href="/mypage/edit"
-      className="group mt-6 block overflow-hidden rounded-2xl border-2 border-rose bg-rose-50/40 p-5 transition-all hover:bg-rose-50/70"
-    >
-      <div className="flex items-baseline justify-between mb-3">
-        <span className="font-mont text-[10px] uppercase tracking-[0.3em] text-rose">
-          Future Attraction
-        </span>
-        <ArrowRight className="h-3.5 w-3.5 text-rose transition-transform group-hover:translate-x-0.5" aria-hidden />
-      </div>
-
-      <p className="text-[13px] font-medium leading-snug mb-4">
-        {isMaxed
-          ? '✨ プロフィール最強状態。新規マッチが期待値MAX'
-          : `あと${100 - current}%入力すると、Like獲得が${likeMultiplier}倍になる可能性。`}
-      </p>
-
-      <div className="mb-3">
-        <div className="mb-1.5 flex items-baseline justify-between text-[10px]">
-          <span className="text-muted-foreground">現在の魅力度</span>
-          <span className="font-mont text-foreground font-semibold">{currentAttraction}</span>
-        </div>
-        <div className="relative h-2 rounded-full bg-muted overflow-hidden">
-          <div className="absolute inset-y-0 left-0 bg-foreground rounded-full" style={{ width: `${currentAttraction}%` }} />
-          <div
-            className="absolute inset-y-0 bg-rose/50 rounded-full"
-            style={{ left: `${currentAttraction}%`, width: `${potentialAttraction - currentAttraction}%` }}
-          />
-        </div>
-        <div className="mt-1.5 flex items-baseline justify-between text-[9px]">
-          <span className="text-muted-foreground">↑現在</span>
-          <span className="text-rose font-medium">↑全部埋めると {potentialAttraction}</span>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-3 gap-2 text-[10px]">
-        <Pill label="完成度" value={`${current}%`} />
-        <Pill label="現在Like獲得" value={`平均${Math.round(currentAttraction / 10)}件/月`} />
-        <Pill label="全部埋めると" value={`+${Math.round((potentialAttraction - currentAttraction) / 10)}件/月`} highlight />
-      </div>
-    </Link>
-  );
-}
-
-function Pill({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
-  return (
-    <div className={`rounded-lg px-2 py-1.5 ${highlight ? 'bg-rose text-rose-foreground' : 'bg-background/60 text-muted-foreground'}`}>
-      <p className={`text-[8px] ${highlight ? 'opacity-80' : ''}`}>{label}</p>
-      <p className={`font-mont font-semibold text-[11px] ${highlight ? '' : 'text-foreground'}`}>{value}</p>
-    </div>
-  );
-}
