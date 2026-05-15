@@ -111,7 +111,7 @@ export function RadarChart({ axes, series, size = 280, max = 100 }: RadarChartPr
             y={y + (isTop ? 0 : isBottom ? 4 : 0)}
             fontSize={10}
             textAnchor="middle"
-            dominantBaseline={isTop ? 'baseline' : isBottom ? 'hanging' : 'middle'}
+            dominantBaseline={isTop ? 'alphabetic' : isBottom ? 'hanging' : 'middle'}
             className="fill-muted-foreground"
           >
             {axis.label}

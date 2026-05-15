@@ -314,7 +314,7 @@ export default function ReferralPage() {
                 <div className="flex gap-2">
                   <Button
                     size="sm"
-                    variant="secondary"
+                    variant="soft"
                     onClick={copyLink}
                     className="flex-1 gap-1.5"
                   >
@@ -324,7 +324,7 @@ export default function ReferralPage() {
                       <><Copy className="h-3 w-3" aria-hidden />コピー</>
                     )}
                   </Button>
-                  <Button size="sm" variant="secondary" className="flex-1 gap-1.5">
+                  <Button size="sm" variant="soft" className="flex-1 gap-1.5">
                     <Share2 className="h-3 w-3" aria-hidden />共有
                   </Button>
                 </div>

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, UserCog, Plus, Shield, ShieldCheck, ShieldOff, KeyRound, CheckCircle2, X } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -16,7 +17,7 @@ import {
   type StaffRole,
 } from '@/lib/demo';
 
-const ROLE_ICONS: Record<StaffRole, React.ComponentType<{ className?: string; strokeWidth?: number; 'aria-hidden'?: boolean }>> = {
+const ROLE_ICONS: Record<StaffRole, LucideIcon> = {
   owner: ShieldCheck,
   admin: Shield,
   operator: UserCog,

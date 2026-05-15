@@ -281,7 +281,7 @@ export default function HomePage() {
             あなたの「愛着スタイル × 動機」が分かります。
           </p>
           <Link href="/diagnostic">
-            <Button fullWidth size="lg" variant="secondary" className="group h-12 text-sm">
+            <Button fullWidth size="lg" variant="soft" className="group h-12 text-sm">
               診断を始める（無料）
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
             </Button>

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, FileText, Upload, AlertTriangle, CheckCircle2, Building2, Receipt, Scale, ScrollText, ShieldCheck, FileArchive, FileLock, Calculator, Camera } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -14,7 +15,7 @@ import {
   type ComplianceDocCategory,
 } from '@/lib/demo';
 
-const CATEGORY_ICONS: Record<ComplianceDocCategory, React.ComponentType<{ className?: string; strokeWidth?: number; 'aria-hidden'?: boolean }>> = {
+const CATEGORY_ICONS: Record<ComplianceDocCategory, LucideIcon> = {
   business_license: Building2,
   invoice_registration: Receipt,
   tokutei_disclosure: Scale,

@@ -60,7 +60,7 @@ export function DateProposalModal({ partnerName, myUserId, state, onClose, onCon
     state.proposal.status === 'confirmed' ? 'view' :
     'compose';
 
-  const [step, setStep] = useState(initialStep);
+  const [step, setStep] = useState<'view' | 'compose' | 'sending' | 'sent'>(initialStep);
   const [drafts, setDrafts] = useState<DateCandidate[]>([
     { datetime: '', location: '' },
     { datetime: '', location: '' },
