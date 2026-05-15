@@ -227,6 +227,7 @@ export default async function MyPage() {
               <GridMenuItem href="/partners" Icon={Store} label="加盟店PG" sub="会員特典" />
               <GridMenuItem href="/premium" Icon={Gem} label="プレミアム" sub={DEMO_USER_STATE.premium ? '加入中' : '未加入'} highlight />
               <GridMenuItem href="/packages" Icon={HeartHandshake} label="個別コーチング" sub="2〜4ヶ月" />
+              <GridMenuItem href="/magazine" Icon={BookOpen} label="マガジン" sub="徳島の婚活" />
             </div>
           </section>
 
@@ -236,7 +237,6 @@ export default async function MyPage() {
             </h2>
             <div className="grid grid-cols-3 gap-2">
               <GridMenuItem href="/graduates" Icon={Sparkles} label="卒業生" sub="成婚報告" />
-              <GridMenuItem href="/magazine" Icon={BookOpen} label="マガジン" sub="徳島の婚活" />
               <GridMenuItem href="/verify" Icon={ShieldCheck} label="本人確認" sub={DEMO_USER_STATE.verified ? '確認済' : '未確認'} />
             </div>
           </section>
@@ -255,36 +255,6 @@ export default async function MyPage() {
       </main>
       <BottomNav />
     </>
-  );
-}
-
-function MenuItem({
-  href,
-  Icon,
-  label,
-  sub,
-  last = false,
-}: {
-  href: string;
-  Icon: LucideIcon;
-  label: string;
-  sub?: string;
-  last?: boolean;
-}) {
-  return (
-    <Link
-      href={href}
-      className={`flex items-center gap-4 px-6 py-5 transition-colors hover:bg-muted ${
-        last ? '' : 'border-b border-border'
-      }`}
-    >
-      <Icon className="h-5 w-5 text-muted-foreground" strokeWidth={1.6} aria-hidden />
-      <div className="flex-1">
-        <p className="text-sm font-medium">{label}</p>
-        {sub && <p className="mt-0.5 text-xs text-muted-foreground">{sub}</p>}
-      </div>
-      <ChevronRight className="h-4 w-4 text-muted-foreground" aria-hidden />
-    </Link>
   );
 }
 

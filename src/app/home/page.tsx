@@ -11,7 +11,6 @@ import {
   DEMO_MODE,
   DEMO_MEMBERS,
   DEMO_MUTUAL_IDS,
-  DEMO_ARTICLES,
   DEMO_EVENT_COMMENTS,
 } from '@/lib/demo';
 
@@ -103,35 +102,6 @@ export default async function HomeFeedPage() {
             </Link>
           </section>
 
-          {/* マガジン */}
-          <section className="mt-12 border-t border-border pt-12">
-            <div className="mb-6 flex items-baseline justify-between">
-              <h2 className="text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-                Magazine
-              </h2>
-              <Link href="/magazine" className="text-xs font-medium underline-offset-4 hover:underline">
-                すべて見る
-              </Link>
-            </div>
-            <ul className="flex flex-col divide-y divide-border">
-              {DEMO_ARTICLES.slice(0, 3).map((a) => (
-                <li key={a.slug}>
-                  <Link
-                    href={`/magazine/${a.slug}`}
-                    className="flex flex-col gap-2 py-5 transition-opacity hover:opacity-70"
-                  >
-                    <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                      {a.category}
-                    </span>
-                    <p className="line-clamp-2 text-sm font-semibold leading-snug">{a.title}</p>
-                    <span className="text-[10px] text-muted-foreground">
-                      {a.publishedAt} · {a.readingTime}min read
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </section>
         </div>
       </main>
       <PWAInstallBanner />

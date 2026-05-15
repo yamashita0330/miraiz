@@ -13,6 +13,7 @@ import {
   type PartnerCategory,
 } from '@/lib/demo';
 import { PartnersSearch } from './PartnersSearch';
+import { PartnerMapSection } from './PartnerMapSection';
 
 export default function PartnersIndexPage() {
   return (
@@ -72,6 +73,9 @@ export default function PartnersIndexPage() {
 
           {/* ============= あなたに指摘された点におすすめ ============= */}
           <RecommendedSection />
+
+          {/* ============= サロンマップ ============= */}
+          <PartnerMapSection />
 
           <div className="mt-10">
             <PartnersSearch partners={DEMO_PARTNERS} />

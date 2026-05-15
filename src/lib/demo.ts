@@ -4763,7 +4763,22 @@ export interface Partner {
   menus?: PartnerMenu[];
   // 営業日における時間枠の例（曜日×開始時刻）
   weekly_slots?: { weekday: number; times: string[] }[];
+  // マップ表示用の座標（オンライン店舗は null）
+  lat?: number | null;
+  lng?: number | null;
 }
+
+// 各加盟店の座標（徳島市内・マップ表示用）
+export const PARTNER_COORDS: Record<string, { lat: number; lng: number } | null> = {
+  'p-bii': { lat: 34.0688, lng: 134.5535 },          // 秋田町
+  'p-challengym': { lat: 34.0722, lng: 134.5512 },    // 寺島本町東
+  'p-eyelash-1': { lat: 34.0735, lng: 134.5562 },     // 東船場町
+  'p-eyebrow-1': { lat: 34.0711, lng: 134.5544 },     // 籠屋町
+  'p-hair-removal-1': { lat: 34.0701, lng: 134.5523 },// 藍場町
+  'p-hair-salon-1': { lat: 34.0752, lng: 134.5483 },  // 新蔵町
+  'p-fashion-1': { lat: 34.0743, lng: 134.5401 },     // 佐古一番町
+  'p-comm-1': null,                                    // オンライン
+};
 
 export const DEMO_PARTNERS: Partner[] = [
   {
