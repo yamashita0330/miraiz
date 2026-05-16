@@ -122,7 +122,7 @@ export default async function MyPage() {
             <div className="grid grid-cols-3 gap-2">
               <QuickIcon href="/events" Icon={Ticket} label="参加チケット" />
               <QuickIcon href="/tsuchihyo" Icon={FileBarChart2} label="私の通知表" />
-              <QuickIcon href="/messages" Icon={HeartHandshake} label="仲人に相談" />
+              <QuickIcon href="/advisor" Icon={HeartHandshake} label="アドバイザーに相談" />
             </div>
           </section>
 
