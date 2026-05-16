@@ -14,7 +14,11 @@ export default function EventsPage() {
   const events = DEMO_EVENTS_LIST;
   const userTickets = DEMO_USER_STATE.event_tickets;
   const live = events.find((e) => e.status === 'live' && userTickets.includes(e.token));
-  const upcoming = events.filter((e) => e.status === 'upcoming');
+  const upcoming = events
+    .filter((e) => e.status === 'upcoming')
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  const nextEvent = upcoming[0] ?? null;
+  const restUpcoming = upcoming.slice(1);
   const past = events.filter((e) => e.status === 'past' && userTickets.includes(e.token));
 
   const liveProgress = {
@@ -79,14 +83,48 @@ export default function EventsPage() {
             </Link>
           )}
 
+          {/* ============= 次回イベント（カウントダウン＋カレンダー） ============= */}
+          {nextEvent && (
+            <section className="mb-10">
+              <h2 className="mb-4 text-xs font-mont uppercase tracking-[0.3em] text-rose">
+                Next Event
+              </h2>
+              <div className="overflow-hidden rounded-3xl border-2 border-foreground bg-foreground text-background">
+                <div className="px-6 pt-6 pb-4 text-center">
+                  <p className="text-base font-semibold leading-snug">{nextEvent.name}</p>
+                  <div className="mt-4 flex items-baseline justify-center gap-1.5">
+                    <span className="text-sm opacity-60">あと</span>
+                    <span className="font-mont text-6xl font-medium leading-none">
+                      {daysUntil(nextEvent.date)}
+                    </span>
+                    <span className="text-lg opacity-60">日</span>
+                  </div>
+                  <p className="mt-2 text-[11px] opacity-60">
+                    {formatDateTime(nextEvent.date)} ／ {nextEvent.venue}
+                  </p>
+                </div>
+                <div className="border-t border-background/15 px-5 py-5">
+                  <MiniCalendar dateIso={nextEvent.date} />
+                </div>
+                <Link
+                  href={`/event/${nextEvent.token}`}
+                  className="group flex items-center justify-center gap-1.5 border-t border-background/15 bg-rose py-3.5 text-sm font-semibold text-rose-foreground"
+                >
+                  詳細・申込へ
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
+                </Link>
+              </div>
+            </section>
+          )}
+
           {/* ============= これからのイベント ============= */}
-          {upcoming.length > 0 && (
+          {restUpcoming.length > 0 && (
             <section className="mb-10">
               <h2 className="mb-4 text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
                 Upcoming
               </h2>
               <ul className="flex flex-col gap-5">
-                {upcoming.map((event) => {
+                {restUpcoming.map((event) => {
                   const d = new Date(event.date);
                   const hasTicket = userTickets.includes(event.token);
                   return (
@@ -272,4 +310,80 @@ function countdownLabel(iso: string): string {
   if (diff <= 7) return `あと${diff}日`;
   if (diff <= 30) return `あと${Math.ceil(diff / 7)}週間`;
   return `あと${Math.ceil(diff / 30)}ヶ月`;
+}
+
+function daysUntil(iso: string): number {
+  const diff = Math.ceil((new Date(iso).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+  return Math.max(0, diff);
+}
+
+// 開催月のミニカレンダー（開催日をハイライト）
+function MiniCalendar({ dateIso }: { dateIso: string }) {
+  const d = new Date(dateIso);
+  const year = d.getFullYear();
+  const month = d.getMonth(); // 0-indexed
+  const eventDay = d.getDate();
+  const today = new Date();
+  const isSameMonth = today.getFullYear() === year && today.getMonth() === month;
+  const todayDay = today.getDate();
+
+  const firstDow = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const cells: (number | null)[] = [];
+  for (let i = 0; i < firstDow; i++) cells.push(null);
+  for (let day = 1; day <= daysInMonth; day++) cells.push(day);
+  while (cells.length % 7 !== 0) cells.push(null);
+
+  const weekdays = ['日', '月', '火', '水', '木', '金', '土'];
+
+  return (
+    <div>
+      <p className="mb-3 text-center font-mont text-xs tracking-wider opacity-80">
+        {year}年 {month + 1}月
+      </p>
+      <div className="grid grid-cols-7 gap-1">
+        {weekdays.map((w, i) => (
+          <span
+            key={w}
+            className={`text-center text-[9px] ${
+              i === 0 ? 'text-rose' : i === 6 ? 'text-info' : 'opacity-50'
+            }`}
+          >
+            {w}
+          </span>
+        ))}
+        {cells.map((day, i) => {
+          if (day === null) return <span key={i} />;
+          const isEvent = day === eventDay;
+          const isToday = isSameMonth && day === todayDay;
+          return (
+            <span
+              key={i}
+              className={`flex aspect-square items-center justify-center rounded-full font-mont text-[11px] ${
+                isEvent
+                  ? 'bg-rose font-bold text-rose-foreground'
+                  : isToday
+                  ? 'border border-background/40 opacity-90'
+                  : 'opacity-55'
+              }`}
+            >
+              {day}
+            </span>
+          );
+        })}
+      </div>
+      <div className="mt-3 flex items-center justify-center gap-3 text-[9px] opacity-60">
+        <span className="inline-flex items-center gap-1">
+          <span className="inline-block h-2.5 w-2.5 rounded-full bg-rose" aria-hidden />
+          開催日
+        </span>
+        {isSameMonth && (
+          <span className="inline-flex items-center gap-1">
+            <span className="inline-block h-2.5 w-2.5 rounded-full border border-background/40" aria-hidden />
+            今日
+          </span>
+        )}
+      </div>
+    </div>
+  );
 }
