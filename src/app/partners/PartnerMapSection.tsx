@@ -1,13 +1,25 @@
+'use client';
+
+import dynamic from 'next/dynamic';
 import { MapPin, ExternalLink } from 'lucide-react';
 import { DEMO_PARTNERS, PARTNER_COORDS, PARTNER_CATEGORY_LABEL } from '@/lib/demo';
 
-// 座標を持つ加盟店のみ（オンライン店舗を除く）
+// react-leaflet は window 依存のため SSR 無効で読み込む
+const PartnerMap = dynamic(
+  () => import('./PartnerMap').then((m) => m.PartnerMap),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex h-[280px] items-center justify-center rounded-2xl border border-border bg-muted/30 text-xs text-muted-foreground">
+        マップを読み込み中…
+      </div>
+    ),
+  }
+);
+
 const MAPPED_PARTNERS = DEMO_PARTNERS
   .map((p) => ({ partner: p, coord: PARTNER_COORDS[p.id] }))
   .filter((x): x is { partner: typeof x.partner; coord: { lat: number; lng: number } } => x.coord != null);
-
-// 徳島市中心
-const MAP_CENTER = '34.0715,134.5510';
 
 export function PartnerMapSection() {
   return (
@@ -19,19 +31,11 @@ export function PartnerMapSection() {
         <span className="text-[10px] text-muted-foreground">徳島市内の加盟店</span>
       </div>
 
-      {/* Google マップ（徳島市中心・APIキー不要のembed） */}
-      <div className="overflow-hidden rounded-2xl border border-border">
-        <iframe
-          title="加盟店マップ"
-          src={`https://maps.google.com/maps?q=${MAP_CENTER}&z=14&output=embed`}
-          width="100%"
-          height="260"
-          style={{ border: 0, display: 'block' }}
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          allowFullScreen
-        />
-      </div>
+      {/* ピン付きマップ */}
+      <PartnerMap />
+      <p className="mt-2 text-[10px] text-muted-foreground">
+        ピンをタップすると店舗の詳細が見られます
+      </p>
 
       {/* 各店舗の位置リンク（タップでGoogleマップが開く） */}
       <ul className="mt-3 flex flex-col gap-2">
@@ -56,9 +60,6 @@ export function PartnerMapSection() {
           </li>
         ))}
       </ul>
-      <p className="mt-2 text-[10px] text-muted-foreground">
-        店舗をタップするとGoogleマップで位置が開きます
-      </p>
     </section>
   );
 }

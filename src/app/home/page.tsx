@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { ArrowRight, Lock, Star } from 'lucide-react';
+import { ArrowRight, Lock, Star, Heart } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
@@ -11,6 +11,7 @@ import {
   DEMO_MODE,
   DEMO_MEMBERS,
   DEMO_MUTUAL_IDS,
+  DEMO_FAVORITED_ME,
   DEMO_EVENT_COMMENTS,
 } from '@/lib/demo';
 
@@ -63,6 +64,30 @@ export default async function HomeFeedPage() {
       <Header showLogout />
       <main className="min-h-screen bg-background pb-24">
         <div className="mx-auto max-w-xl px-6 py-8">
+          {/* 受信いいね通知バナー */}
+          {DEMO_FAVORITED_ME.size > 0 && (
+            <Link
+              href="/favorites"
+              className="group mb-6 flex items-center gap-3 rounded-2xl border-2 border-rose bg-rose-50 p-4 transition-colors hover:bg-rose-100"
+            >
+              <span className="relative inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-rose text-rose-foreground">
+                <Heart className="h-5 w-5" strokeWidth={2.2} aria-hidden />
+                <span className="absolute -right-1 -top-1 inline-flex h-5 min-w-5 items-center justify-center rounded-full border-2 border-rose-50 bg-foreground px-1 font-mont text-[10px] text-background">
+                  {DEMO_FAVORITED_ME.size}
+                </span>
+              </span>
+              <div className="flex-1">
+                <p className="text-sm font-semibold text-rose">
+                  {DEMO_FAVORITED_ME.size}人から「いいね」が届いています
+                </p>
+                <p className="text-[11px] text-muted-foreground">
+                  タップして相手のプロフィールを確認
+                </p>
+              </div>
+              <ArrowRight className="h-4 w-4 text-rose transition-transform group-hover:translate-x-0.5" aria-hidden />
+            </Link>
+          )}
+
           {/* スワイプデッキ + 完了後分析 */}
           <HomeContent members={members} mutualIds={mutualIds} />
 
