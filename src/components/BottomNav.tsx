@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Home, Calendar, MessageCircle, Sparkles, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { DEMO_TOTAL_UNREAD, DEMO_EVENT_CONVERSATIONS } from '@/lib/demo';
+import { DEMO_TOTAL_UNREAD, DEMO_EVENT_CONVERSATIONS, DEMO_FAVORITED_ME } from '@/lib/demo';
 
 // 進行中の会話 + 未評価のターン数（イベント参加中のpending件数）
 const EVENT_PENDING = DEMO_EVENT_CONVERSATIONS.filter(
@@ -14,6 +14,8 @@ const EVENT_PENDING = DEMO_EVENT_CONVERSATIONS.filter(
 const EVENT_LIVE = DEMO_EVENT_CONVERSATIONS.some(
   (c) => c.status === 'in_progress' || c.status === 'upcoming'
 );
+// トークバッジ = 未読メッセージ + 受信いいね
+const TALK_BADGE = DEMO_TOTAL_UNREAD + DEMO_FAVORITED_ME.size;
 
 const NAV_ITEMS = [
   { href: '/home', label: '出逢う', Icon: Home },
@@ -24,7 +26,7 @@ const NAV_ITEMS = [
     badge: EVENT_PENDING > 0 ? EVENT_PENDING : undefined,
     pulse: EVENT_LIVE,
   },
-  { href: '/messages', label: 'トーク', Icon: MessageCircle, badge: DEMO_TOTAL_UNREAD },
+  { href: '/messages', label: 'トーク', Icon: MessageCircle, badge: TALK_BADGE > 0 ? TALK_BADGE : undefined },
   { href: '/partners', label: '磨く', Icon: Sparkles },
   { href: '/mypage', label: 'マイページ', Icon: User },
 ];

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { User as UserIcon, MessageCircle } from 'lucide-react';
+import { User as UserIcon, MessageCircle, Heart, ChevronRight } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
@@ -10,6 +10,7 @@ import {
   DEMO_MESSAGES,
   findDemoMember,
   DEMO_ME,
+  DEMO_FAVORITED_ME,
 } from '@/lib/demo';
 
 export const dynamic = 'force-dynamic';
@@ -29,6 +30,11 @@ export default async function MessagesListPage() {
     return { thread: t, partner, last };
   });
 
+  // あなたにいいねした相手
+  const likedMe = Array.from(DEMO_FAVORITED_ME)
+    .map((id) => findDemoMember(id))
+    .filter((m): m is NonNullable<typeof m> => m != null);
+
   return (
     <>
       <Header showLogout />
@@ -45,6 +51,49 @@ export default async function MessagesListPage() {
               両想いになった相手とアプリ内で直接やりとりできます。
             </p>
           </header>
+
+          {/* ============= あなたにいいねした人 ============= */}
+          {likedMe.length > 0 && (
+            <section className="mt-8 rounded-2xl border-2 border-rose bg-rose-50 p-5">
+              <div className="mb-3 flex items-baseline gap-2">
+                <Heart className="h-3.5 w-3.5 text-rose" strokeWidth={2.2} aria-hidden />
+                <p className="text-sm font-semibold text-rose">
+                  {likedMe.length}人から「いいね」が届いています
+                </p>
+              </div>
+              <ul className="flex gap-3 overflow-x-auto pb-1">
+                {likedMe.map((m) => (
+                  <li key={m.id} className="shrink-0">
+                    <Link href={`/profile/${m.id}`} className="flex flex-col items-center gap-1.5 w-16">
+                      <div className="relative h-16 w-16 overflow-hidden rounded-full border-2 border-rose bg-muted">
+                        {m.photo_url ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img src={m.photo_url} alt="" className="h-full w-full object-cover" />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center text-muted-foreground">
+                            <UserIcon className="h-6 w-6" strokeWidth={1.4} aria-hidden />
+                          </div>
+                        )}
+                        <span className="absolute -right-0.5 -top-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full border-2 border-rose-50 bg-rose text-rose-foreground">
+                          <Heart className="h-2.5 w-2.5" strokeWidth={2.5} aria-hidden />
+                        </span>
+                      </div>
+                      <span className="truncate w-full text-center text-[11px] font-medium">
+                        {m.name}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/favorites"
+                className="mt-3 flex items-center justify-center gap-1 text-[11px] font-medium text-rose hover:underline"
+              >
+                受け取ったいいねを全部見る
+                <ChevronRight className="h-3 w-3" aria-hidden />
+              </Link>
+            </section>
+          )}
 
           <section className="mt-12">
             {items.length === 0 ? (
