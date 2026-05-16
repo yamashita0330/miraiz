@@ -11,6 +11,8 @@ import {
   Clock,
   Sparkles,
   ChevronRight,
+  ClipboardList,
+  ArrowRight,
 } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
@@ -181,17 +183,48 @@ export default function EventDetailPage() {
 
           {/* CTA */}
           {hasTicket ? (
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-3">
+              {/* イベント用プロフィール入力（最優先・目立たせる） */}
+              {event.status !== 'past' && (
+                <Link
+                  href={`/event/${event.token}/profile`}
+                  className="group block overflow-hidden rounded-2xl border-2 border-rose bg-rose"
+                >
+                  <div className="flex items-center gap-4 p-5 text-rose-foreground">
+                    <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-rose-foreground/15">
+                      <ClipboardList className="h-6 w-6" strokeWidth={1.8} aria-hidden />
+                    </span>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="rounded-full bg-rose-foreground/20 px-2 py-0.5 text-[9px] font-bold tracking-wide">
+                          まず最初に
+                        </span>
+                      </div>
+                      <p className="mt-1 text-[15px] font-bold leading-snug">
+                        イベント用プロフィールを入力
+                      </p>
+                      <p className="mt-0.5 text-[11px] opacity-80">
+                        当日の席順マッチングに使います
+                      </p>
+                    </div>
+                    <ArrowRight
+                      className="h-5 w-5 shrink-0 transition-transform group-hover:translate-x-1"
+                      aria-hidden
+                    />
+                  </div>
+                </Link>
+              )}
+
               {event.status !== 'past' && (
                 <Link href={`/event/${event.token}/mid`}>
-                  <Button fullWidth size="lg" className="gap-2">
+                  <Button fullWidth size="lg" variant="outline" className="gap-2">
                     <Sparkles className="h-4 w-4" aria-hidden />
                     {event.status === 'live' ? '評価入力に戻る' : '会場へ向かう（参加者画面）'}
                   </Button>
                 </Link>
               )}
               <Link href={`/event/${event.token}/result`}>
-                <Button fullWidth size="lg" variant="outline">
+                <Button fullWidth size="lg" variant="ghost">
                   両想い結果を見る
                 </Button>
               </Link>
