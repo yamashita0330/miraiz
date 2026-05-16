@@ -596,13 +596,14 @@ export const DEMO_APPLICATIONS: MembershipApplication[] = [
 ];
 
 // 仲人予約（Zoom・対面）
-export type BookingType = 'zoom' | 'in_person' | 'mindset_meeting' | 'individual_feedback';
+export type BookingType = 'zoom' | 'in_person' | 'mindset_meeting' | 'individual_feedback' | 'advisor_consult';
 
 export const BOOKING_TYPE_LABEL: Record<BookingType, string> = {
   zoom: 'Zoom 30分',
   in_person: '対面セッション',
   mindset_meeting: '月例マインドセット会',
   individual_feedback: '個別フィードバック会',
+  advisor_consult: 'アドバイザー相談',
 };
 
 export interface MatchmakerBooking {
@@ -612,11 +613,49 @@ export interface MatchmakerBooking {
   type: BookingType;
   scheduled_at: string;
   duration_minutes: number;
-  status: 'upcoming' | 'completed' | 'cancelled' | 'no_show';
+  // requested = アドバイザー相談リクエスト受信・日程未確定
+  status: 'requested' | 'upcoming' | 'completed' | 'cancelled' | 'no_show';
   notes: string | null;
+  // アドバイザー相談リクエスト用：会員が送った希望日程候補
+  requested_slots?: string[];
+  consult_topic?: string;
+  consult_format?: 'zoom' | 'in_person' | 'phone';
 }
 
 export const DEMO_BOOKINGS: MatchmakerBooking[] = [
+  {
+    id: 'BK-101',
+    user_name: '高橋 さくら',
+    plan: 'ume',
+    type: 'advisor_consult',
+    scheduled_at: '2026-05-20T10:00:00+09:00',
+    duration_minutes: 30,
+    status: 'requested',
+    notes: 'アプリから相談リクエスト受信。日程調整待ち。',
+    consult_topic: 'プロフィールの改善',
+    consult_format: 'zoom',
+    requested_slots: [
+      '2026-05-20 午前（10-12時）',
+      '2026-05-22 夜（18-21時）',
+      '2026-05-25 昼（12-15時）',
+    ],
+  },
+  {
+    id: 'BK-102',
+    user_name: '中村 拓也',
+    plan: 'matsu',
+    type: 'advisor_consult',
+    scheduled_at: '2026-05-19T19:00:00+09:00',
+    duration_minutes: 45,
+    status: 'requested',
+    notes: 'アプリから相談リクエスト受信。日程調整待ち。',
+    consult_topic: 'デートの進め方',
+    consult_format: 'in_person',
+    requested_slots: [
+      '2026-05-19 夜（18-21時）',
+      '2026-05-21 夕方（15-18時）',
+    ],
+  },
   {
     id: 'BK-001',
     user_name: '佐藤 美咲',

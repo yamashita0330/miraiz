@@ -20,7 +20,7 @@ type FilterType = 'all' | BookingType;
 export default function BookingsPage() {
   const [bookings, setBookings] = useState<MatchmakerBooking[]>(DEMO_BOOKINGS);
   const [filter, setFilter] = useState<FilterType>('all');
-  const [statusFilter, setStatusFilter] = useState<'all' | 'upcoming' | 'completed'>('upcoming');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'requested' | 'upcoming' | 'completed'>('upcoming');
 
   const filtered = bookings.filter((b) => {
     if (filter !== 'all' && b.type !== filter) return false;
@@ -32,6 +32,8 @@ export default function BookingsPage() {
     (a, b) => new Date(a.scheduled_at).getTime() - new Date(b.scheduled_at).getTime()
   );
 
+  const requestedCount = bookings.filter((b) => b.status === 'requested').length;
+
   const markCompleted = (id: string) => {
     setBookings((prev) =>
       prev.map((b) => (b.id === id ? { ...b, status: 'completed' as const } : b))
@@ -41,6 +43,12 @@ export default function BookingsPage() {
   const markNoShow = (id: string) => {
     setBookings((prev) =>
       prev.map((b) => (b.id === id ? { ...b, status: 'no_show' as const } : b))
+    );
+  };
+
+  const confirmSchedule = (id: string) => {
+    setBookings((prev) =>
+      prev.map((b) => (b.id === id ? { ...b, status: 'upcoming' as const } : b))
     );
   };
 
@@ -107,8 +115,18 @@ export default function BookingsPage() {
                 active={filter === 'individual_feedback'}
                 onClick={() => setFilter('individual_feedback')}
               />
+              <Chip
+                label="アドバイザー相談"
+                active={filter === 'advisor_consult'}
+                onClick={() => setFilter('advisor_consult')}
+              />
             </div>
             <div className="flex flex-wrap gap-2">
+              <Chip
+                label={requestedCount > 0 ? `相談リクエスト (${requestedCount})` : '相談リクエスト'}
+                active={statusFilter === 'requested'}
+                onClick={() => setStatusFilter('requested')}
+              />
               <Chip
                 label="今後"
                 active={statusFilter === 'upcoming'}
@@ -154,6 +172,52 @@ export default function BookingsPage() {
                         {b.notes}
                       </p>
                     )}
+
+                    {/* アドバイザー相談リクエスト：希望日程と確定操作 */}
+                    {b.status === 'requested' && (
+                      <div className="basis-full mt-2 rounded-xl border border-warn/40 bg-warn-50 p-3">
+                        <div className="mb-2 flex flex-wrap items-baseline gap-2 text-[10px]">
+                          <Badge variant="outline" className="text-[9px] text-warn border-warn">
+                            日程調整待ち
+                          </Badge>
+                          {b.consult_topic && (
+                            <span className="text-muted-foreground">
+                              相談内容：<span className="text-foreground font-medium">{b.consult_topic}</span>
+                            </span>
+                          )}
+                          {b.consult_format && (
+                            <span className="text-muted-foreground">
+                              形式：{b.consult_format === 'zoom' ? 'オンライン' : b.consult_format === 'in_person' ? '対面' : '電話'}
+                            </span>
+                          )}
+                        </div>
+                        {b.requested_slots && b.requested_slots.length > 0 && (
+                          <div className="mb-2">
+                            <p className="mb-1 text-[10px] text-muted-foreground">会員の希望日程</p>
+                            <ul className="flex flex-col gap-1">
+                              {b.requested_slots.map((s, idx) => (
+                                <li
+                                  key={idx}
+                                  className="flex items-baseline gap-1.5 text-[11px]"
+                                >
+                                  <span className="font-mont text-[9px] text-rose">第{idx + 1}希望</span>
+                                  <span>{s}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                        <Button
+                          size="sm"
+                          onClick={() => confirmSchedule(b.id)}
+                          className="gap-1"
+                        >
+                          <Check className="h-3 w-3" aria-hidden />
+                          日程を確定して連絡
+                        </Button>
+                      </div>
+                    )}
+
                     {b.status === 'upcoming' && (
                       <div className="flex gap-2 basis-full mt-2">
                         <Button
