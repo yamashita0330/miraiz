@@ -194,21 +194,38 @@ export default function CheckoutPage() {
               <p className="text-xs leading-relaxed text-muted-foreground max-w-sm">
                 {event.name}<br />
                 {formatDateTime(event.date)}<br />
-                {event.venue}<br /><br />
-                参加者プロフィール・MID評価・両想い発表が解放されました。
-                当日はアプリを必ずご持参ください。
+                {event.venue}
               </p>
 
-              <div className="mt-4 flex w-full max-w-xs flex-col gap-2">
-                <Button fullWidth size="lg" onClick={() => router.push(`/event/${params.token}`)} className="gap-2">
-                  イベント詳細へ
+              {/* 次のステップ：イベント用プロフィール */}
+              <div className="mt-2 w-full max-w-sm rounded-2xl border-2 border-rose bg-rose-50 p-5 text-left">
+                <p className="font-mont text-[10px] uppercase tracking-[0.3em] text-rose">
+                  Next Step
+                </p>
+                <p className="mt-1.5 text-sm font-semibold">イベント用プロフィールを入力</p>
+                <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
+                  当日の席順マッチングに使います。マイページ入力済みの方は情報を引き継げます。
+                </p>
+              </div>
+
+              <div className="mt-2 flex w-full max-w-xs flex-col gap-2">
+                <Button
+                  fullWidth
+                  size="lg"
+                  onClick={() => router.push(`/event/${params.token}/profile`)}
+                  className="gap-2"
+                >
+                  イベント用プロフィールを入力
                   <ChevronRight className="h-4 w-4" aria-hidden />
                 </Button>
-                <Link href="/events">
-                  <Button fullWidth size="lg" variant="ghost">
-                    イベント一覧へ
-                  </Button>
-                </Link>
+                <Button
+                  fullWidth
+                  size="lg"
+                  variant="ghost"
+                  onClick={() => router.push(`/event/${params.token}`)}
+                >
+                  あとで（イベント詳細へ）
+                </Button>
               </div>
             </div>
           )}
