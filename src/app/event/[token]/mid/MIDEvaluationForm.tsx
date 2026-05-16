@@ -40,7 +40,6 @@ export function MIDEvaluationForm({ partner, turn, onSubmit, onCancel }: Props) 
   const [comfortable, setComfortable] = useState<boolean | null>(null);
   const [wasListened, setWasListened] = useState<boolean | null>(null);
   const [notJudged, setNotJudged] = useState<boolean | null>(null);
-  const [sharedTopics, setSharedTopics] = useState<boolean | null>(null);
 
   // STEP 3: 連絡先交換 + 理由（複数選択）
   const [wantContact, setWantContact] = useState<boolean | null>(null);
@@ -65,7 +64,7 @@ export function MIDEvaluationForm({ partner, turn, onSubmit, onCancel }: Props) 
       comfortable: comfortable ?? false,
       was_listened: wasListened ?? false,
       not_judged: notJudged ?? false,
-      shared_topics: sharedTopics ?? false,
+      shared_topics: false,
       look_feedback: lookFeedback,
       impression_keyword: keyword.trim() || null,
       submitted_at: new Date().toISOString(),
@@ -105,8 +104,7 @@ export function MIDEvaluationForm({ partner, turn, onSubmit, onCancel }: Props) 
     talkability > 0 &&
     comfortable !== null &&
     wasListened !== null &&
-    notJudged !== null &&
-    sharedTopics !== null;
+    notJudged !== null;
   const canNextContact = wantContact !== null && reasons.length > 0;
 
   const toggleReason = (r: MIDLikeReason | MIDPassReason) => {
@@ -284,11 +282,6 @@ export function MIDEvaluationForm({ partner, turn, onSubmit, onCancel }: Props) 
                       label="否定・批判されたと感じなかった"
                       value={notJudged}
                       onChange={setNotJudged}
-                    />
-                    <FeelingQuestion
-                      label="共通の話題があった"
-                      value={sharedTopics}
-                      onChange={setSharedTopics}
                     />
                   </div>
                 </div>

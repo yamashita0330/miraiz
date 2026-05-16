@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { Clock, Check, ChevronRight, ArrowLeft, User as UserIcon, Sparkles, Search, X } from 'lucide-react';
+import { Clock, Check, ChevronRight, ArrowLeft, User as UserIcon, Sparkles, Search, X, CheckCircle2 } from 'lucide-react';
 import { BottomNav } from '@/components/BottomNav';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
@@ -27,6 +27,7 @@ export default function MIDHubPage() {
   const [activeTurn, setActiveTurn] = useState<number | null>(null);
   const [profileTurn, setProfileTurn] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [submittedNotice, setSubmittedNotice] = useState(false);
 
   // 検索フィルタリング：名前・職業・出身地・趣味・bio・印象キーワード・パーソナリティタグ
   const filteredConversations = (() => {
@@ -89,6 +90,8 @@ export default function MIDHubPage() {
       })
     );
     setActiveTurn(null);
+    setSubmittedNotice(true);
+    setTimeout(() => setSubmittedNotice(false), 2800);
   };
 
   if (activeTurn !== null) {
@@ -109,6 +112,16 @@ export default function MIDHubPage() {
 
   return (
     <>
+      {/* 評価送信トースト */}
+      {submittedNotice && (
+        <div className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
+          <div className="flex items-center gap-2 rounded-full bg-foreground px-5 py-3 text-background shadow-lg">
+            <CheckCircle2 className="h-4 w-4 text-success" strokeWidth={2.2} aria-hidden />
+            <span className="text-sm font-semibold">評価を送信しました</span>
+          </div>
+        </div>
+      )}
+
       <header className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
         <div className="mx-auto flex h-16 max-w-xl items-center gap-3 px-4">
           <Link
