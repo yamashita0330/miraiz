@@ -5333,9 +5333,21 @@ export type IntentionTag =
   | 'embrace_nervous'    // 緊張を受け入れる
   | 'enjoy'              // とにかく楽しむ
   | 'speak_first'        // 気になった人に自分から話しかける
-  | 'finish_strong';     // 最後まで完走する
+  | 'finish_strong'      // 最後まで完走する
+  // 見た目（イベント前に準備）
+  | 'fresh_hairstyle'    // 髪型を整えて参加する
+  | 'tidy_eyebrows'      // 眉毛を整えて参加する
+  | 'new_outfit'         // 服装を新調・見直す
+  | 'clean_impression'   // 清潔感を意識する
+  | 'fit_clothing';      // サイズの合った服を着る
 
 export const INTENTION_TAGS: { value: IntentionTag; label: string; category: string }[] = [
+  // 見た目（イベント前に準備）
+  { value: 'fresh_hairstyle', label: '髪型を整えて参加する', category: '見た目' },
+  { value: 'tidy_eyebrows', label: '眉毛を整えて参加する', category: '見た目' },
+  { value: 'new_outfit', label: '服装を新調・見直す', category: '見た目' },
+  { value: 'clean_impression', label: '清潔感を意識する', category: '見た目' },
+  { value: 'fit_clothing', label: 'サイズの合った服を着る', category: '見た目' },
   // 会話力
   { value: 'listen_more', label: '聞き上手になる', category: '会話力' },
   { value: 'ask_questions', label: '自分から質問する', category: '会話力' },

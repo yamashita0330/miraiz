@@ -144,7 +144,8 @@ function IntentionEditor({
           </p>
           <p className="text-sm font-semibold">今回のイベントで磨きたいこと</p>
           <p className="text-[10px] leading-relaxed text-muted-foreground">
-            {INTENTION_MIN_TAGS}〜{INTENTION_MAX_TAGS}個選択してください。会場で意識する自分への約束です。
+            {INTENTION_MIN_TAGS}〜{INTENTION_MAX_TAGS}個選択してください。<br />
+            見た目はイベント前に準備、会話・行動は当日に意識する自分への約束です。
           </p>
         </div>
         {initial && (

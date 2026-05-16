@@ -42,10 +42,17 @@ export default function EventsPage() {
 
           {/* ============= 進行中（Live） ============= */}
           {live && (
-            <Link
-              href={`/event/${live.token}/mid`}
-              className="group mb-8 block overflow-hidden rounded-3xl border-2 border-rose bg-foreground text-background"
-            >
+            <section className="mb-8">
+              <div className="mb-4">
+                <span className="font-mont text-[10px] uppercase tracking-[0.3em] text-rose">
+                  Live Now
+                </span>
+                <h2 className="text-base font-semibold tracking-tight">参加中のイベント</h2>
+              </div>
+              <Link
+                href={`/event/${live.token}/mid`}
+                className="group block overflow-hidden rounded-3xl border-2 border-rose bg-foreground text-background"
+              >
               {/* ライブヘッダー帯 */}
               <div className="flex items-center justify-between bg-rose px-5 py-2.5 text-rose-foreground">
                 <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold">
@@ -81,15 +88,19 @@ export default function EventsPage() {
                   <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" aria-hidden />
                 </div>
               </div>
-            </Link>
+              </Link>
+            </section>
           )}
 
           {/* ============= 次回イベント（カウントダウン＋カレンダー） ============= */}
           {nextEvent && (
             <section className="mb-10">
-              <h2 className="mb-4 text-xs font-mont uppercase tracking-[0.3em] text-rose">
-                Next Event
-              </h2>
+              <div className="mb-4">
+                <span className="font-mont text-[10px] uppercase tracking-[0.3em] text-rose">
+                  Next Event
+                </span>
+                <h2 className="text-base font-semibold tracking-tight">次回のイベント</h2>
+              </div>
               <div className="overflow-hidden rounded-3xl border-2 border-foreground bg-foreground text-background">
                 <div className="px-6 pt-6 pb-4 text-center">
                   <p className="text-base font-semibold leading-snug">{nextEvent.name}</p>
@@ -117,9 +128,12 @@ export default function EventsPage() {
 
           {/* ============= カレンダー（月送り可能） ============= */}
           <section className="mb-10">
-            <h2 className="mb-4 text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-              Calendar
-            </h2>
+            <div className="mb-4">
+              <span className="font-mont text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                Calendar
+              </span>
+              <h2 className="text-base font-semibold tracking-tight">開催カレンダー</h2>
+            </div>
             <EventCalendar
               events={events.map((e) => ({
                 token: e.token,
@@ -133,9 +147,12 @@ export default function EventsPage() {
           {/* ============= これからのイベント ============= */}
           {restUpcoming.length > 0 && (
             <section className="mb-10">
-              <h2 className="mb-4 text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-                Upcoming
-              </h2>
+              <div className="mb-4">
+                <span className="font-mont text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                  Upcoming
+                </span>
+                <h2 className="text-base font-semibold tracking-tight">今後のイベント</h2>
+              </div>
               <ul className="flex flex-col gap-5">
                 {restUpcoming.map((event) => {
                   const d = new Date(event.date);
@@ -233,9 +250,12 @@ export default function EventsPage() {
           {/* ============= 参加履歴 ============= */}
           {past.length > 0 && (
             <section>
-              <h2 className="mb-4 text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-                Past
-              </h2>
+              <div className="mb-4">
+                <span className="font-mont text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                  Past
+                </span>
+                <h2 className="text-base font-semibold tracking-tight">参加履歴</h2>
+              </div>
               <ul className="flex flex-col gap-3">
                 {past.map((event) => {
                   const meta = PAST_PARTICIPATION_META[event.token];
