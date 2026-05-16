@@ -3,6 +3,7 @@ import { MapPin, ArrowRight, Heart, Users, Clock, Ticket, CheckCircle2, Sparkles
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
 import { DEMO_EVENTS_LIST, DEMO_USER_STATE, DEMO_EVENT_CONVERSATIONS } from '@/lib/demo';
+import { EventCalendar } from './EventCalendar';
 
 export const dynamic = 'force-dynamic';
 
@@ -103,9 +104,6 @@ export default function EventsPage() {
                     {formatDateTime(nextEvent.date)} ／ {nextEvent.venue}
                   </p>
                 </div>
-                <div className="border-t border-background/15 px-5 py-5">
-                  <MiniCalendar dateIso={nextEvent.date} />
-                </div>
                 <Link
                   href={`/event/${nextEvent.token}`}
                   className="group flex items-center justify-center gap-1.5 border-t border-background/15 bg-rose py-3.5 text-sm font-semibold text-rose-foreground"
@@ -116,6 +114,21 @@ export default function EventsPage() {
               </div>
             </section>
           )}
+
+          {/* ============= カレンダー（月送り可能） ============= */}
+          <section className="mb-10">
+            <h2 className="mb-4 text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
+              Calendar
+            </h2>
+            <EventCalendar
+              events={events.map((e) => ({
+                token: e.token,
+                name: e.name,
+                date: e.date,
+                status: e.status,
+              }))}
+            />
+          </section>
 
           {/* ============= これからのイベント ============= */}
           {restUpcoming.length > 0 && (
@@ -315,75 +328,4 @@ function countdownLabel(iso: string): string {
 function daysUntil(iso: string): number {
   const diff = Math.ceil((new Date(iso).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
   return Math.max(0, diff);
-}
-
-// 開催月のミニカレンダー（開催日をハイライト）
-function MiniCalendar({ dateIso }: { dateIso: string }) {
-  const d = new Date(dateIso);
-  const year = d.getFullYear();
-  const month = d.getMonth(); // 0-indexed
-  const eventDay = d.getDate();
-  const today = new Date();
-  const isSameMonth = today.getFullYear() === year && today.getMonth() === month;
-  const todayDay = today.getDate();
-
-  const firstDow = new Date(year, month, 1).getDay();
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const cells: (number | null)[] = [];
-  for (let i = 0; i < firstDow; i++) cells.push(null);
-  for (let day = 1; day <= daysInMonth; day++) cells.push(day);
-  while (cells.length % 7 !== 0) cells.push(null);
-
-  const weekdays = ['日', '月', '火', '水', '木', '金', '土'];
-
-  return (
-    <div>
-      <p className="mb-3 text-center font-mont text-xs tracking-wider opacity-80">
-        {year}年 {month + 1}月
-      </p>
-      <div className="grid grid-cols-7 gap-1">
-        {weekdays.map((w, i) => (
-          <span
-            key={w}
-            className={`text-center text-[9px] ${
-              i === 0 ? 'text-rose' : i === 6 ? 'text-info' : 'opacity-50'
-            }`}
-          >
-            {w}
-          </span>
-        ))}
-        {cells.map((day, i) => {
-          if (day === null) return <span key={i} />;
-          const isEvent = day === eventDay;
-          const isToday = isSameMonth && day === todayDay;
-          return (
-            <span
-              key={i}
-              className={`flex aspect-square items-center justify-center rounded-full font-mont text-[11px] ${
-                isEvent
-                  ? 'bg-rose font-bold text-rose-foreground'
-                  : isToday
-                  ? 'border border-background/40 opacity-90'
-                  : 'opacity-55'
-              }`}
-            >
-              {day}
-            </span>
-          );
-        })}
-      </div>
-      <div className="mt-3 flex items-center justify-center gap-3 text-[9px] opacity-60">
-        <span className="inline-flex items-center gap-1">
-          <span className="inline-block h-2.5 w-2.5 rounded-full bg-rose" aria-hidden />
-          開催日
-        </span>
-        {isSameMonth && (
-          <span className="inline-flex items-center gap-1">
-            <span className="inline-block h-2.5 w-2.5 rounded-full border border-background/40" aria-hidden />
-            今日
-          </span>
-        )}
-      </div>
-    </div>
-  );
 }
