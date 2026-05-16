@@ -211,15 +211,20 @@ export default function EventsPage() {
                             </span>
                           </div>
 
-                          {/* ハイライト チップ */}
+                          {/* ハイライト（全文・チェックリスト） */}
                           {event.highlights && event.highlights.length > 0 && (
-                            <ul className="mt-3 flex flex-wrap gap-1.5">
+                            <ul className="mt-3 flex flex-col gap-1.5 rounded-xl bg-muted/40 p-3">
                               {event.highlights.slice(0, 3).map((h, i) => (
                                 <li
                                   key={i}
-                                  className="rounded-full bg-muted px-2.5 py-1 text-[10px] text-muted-foreground"
+                                  className="flex items-baseline gap-1.5 text-[11px] leading-snug text-muted-foreground"
                                 >
-                                  {h.length > 16 ? h.slice(0, 16) + '…' : h}
+                                  <CheckCircle2
+                                    className="h-3 w-3 shrink-0 translate-y-0.5 text-rose"
+                                    strokeWidth={2}
+                                    aria-hidden
+                                  />
+                                  <span>{h}</span>
                                 </li>
                               ))}
                             </ul>
