@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { CheckCircle2, Loader2, TrendingUp, TrendingDown, Heart, Users, Sparkles, Smile, MessageCircle, BarChart3 } from 'lucide-react';
+import { CheckCircle2, Loader2, TrendingUp, TrendingDown, Heart, Users, Sparkles, Smile, MessageCircle, BarChart3, Lock, ArrowRight } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
 import { Button } from '@/components/ui/button';
@@ -23,7 +23,6 @@ import Link from 'next/link';
 import { ScoreCardVisual } from '@/components/ScoreCardVisual';
 import { DimensionDetail } from '@/components/DimensionDetail';
 import { EventComments } from '@/components/EventComments';
-import { PaywallLock } from '@/components/PaywallLock';
 import { BodyDiagram } from '@/components/BodyDiagram';
 import { cn } from '@/lib/utils';
 
@@ -53,74 +52,92 @@ export default function TsuchihyoPage() {
       <main className="min-h-screen bg-background pb-24">
         <div className="mx-auto max-w-xl px-6 py-10">
           {step === 'preview' && (
-            <div className="flex flex-col gap-10">
-              <header className="flex flex-col gap-4">
+            <div className="flex flex-col gap-8">
+              <header className="flex flex-col gap-3">
                 <span className="font-mont text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
                   Koi-no-Tsuchihyo
                 </span>
-                <h1 className="text-3xl font-semibold leading-tight tracking-tight">恋の通知表</h1>
+                <h1 className="text-2xl font-semibold leading-tight tracking-tight">
+                  {s.eventTitle}<br />通知表が届きました
+                </h1>
                 <p className="text-sm leading-relaxed text-muted-foreground">
-                  当日あなたがどう見られていたか、データを全てお渡しします。<br />
-                  下のプレビューは購入後の実画面です。
+                  当日あなたがどう見られていたか。<br />
+                  まずは順位を無料でご確認ください。
                 </p>
-                <div className="flex items-baseline gap-3 pt-2">
-                  <span className="font-mont text-4xl font-medium tracking-tight">¥1,980</span>
-                  <span className="text-sm text-muted-foreground">／回</span>
-                </div>
               </header>
 
-              {/* スコア & 学術根拠 */}
-              <PaywallLock
-                title="6項目スコア＋学術根拠と参加者平均比較"
-                description="UCLA・ゴットマン・ハーバード・アロン・心理的安全性の5研究を根拠に、あなたの印象を6項目で可視化します。"
-                onUnlock={() => setStep('checkout')}
-                soft
-                badge="Score Locked"
-              >
-                <div className="p-6">
-                  <ScoreCardVisual variant="compact" showPartnerCTA={false} />
-                </div>
-              </PaywallLock>
-
-              {/* 詳細フィードバック */}
-              <PaywallLock
-                title="項目ごとの良かった点・指摘点・改善Tip"
-                description={`参加者からの「${s.eventTitle}」での実コメントを、6項目すべてで閲覧できます。眉毛・髪型・話の進め方など具体的な指摘を確認。`}
-                onUnlock={() => setStep('checkout')}
-                badge="Feedback Locked"
-              >
-                <div className="flex flex-col gap-3 p-6">
-                  {(['appearance', 'talkability', 'gottman'] as ScoreDimension[]).map((d) => (
-                    <DimensionDetail
-                      key={d}
-                      dimension={d}
-                      score={s.scores[d]}
-                      averageScore={s.averageScores[d]}
-                    />
-                  ))}
-                </div>
-              </PaywallLock>
-
-              {/* イベント後コメント */}
-              <PaywallLock
-                title={`参加者から受けた ${12} 件の匿名コメント`}
-                description="ポジティブ・建設的の両面で、当日あなたを評価したコメントが匿名で読めます。投稿者の特定はできません。"
-                onUnlock={() => setStep('checkout')}
-                badge="Comments Locked"
-              >
-                <div className="p-6">
-                  <EventComments />
-                </div>
-              </PaywallLock>
-
-              <div className="flex flex-col gap-3">
-                <Button fullWidth size="lg" onClick={() => setStep('checkout')}>
-                  ¥1,980 でデータを受け取る
-                </Button>
-                <p className="text-center text-xs text-muted-foreground">
-                  参加された全イベントの通知表を1回購入で閲覧できます
+              {/* ===== 無料: 上位%ヒーロー ===== */}
+              <section className="rounded-3xl border-2 border-foreground bg-foreground p-7 text-background">
+                <p className="font-mont text-[10px] uppercase tracking-[0.4em] opacity-60">
+                  Your Rank — Free
                 </p>
-              </div>
+                <div className="mt-3 flex items-baseline gap-2">
+                  <span className="text-sm opacity-70">上位</span>
+                  <span className="font-mont text-6xl font-medium leading-none">{s.percentile}</span>
+                  <span className="text-2xl opacity-70">%</span>
+                </div>
+                <p className="mt-3 text-[13px] opacity-80">
+                  参加者{s.totalParticipants}人中 <span className="font-mont font-semibold">{s.rank}位</span>。
+                  {s.percentile <= 20
+                    ? 'かなりの好印象を残しています。'
+                    : s.percentile <= 50
+                    ? '平均より上の好印象です。'
+                    : '伸びしろがあります。'}
+                </p>
+                <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-background/20">
+                  <div
+                    className="h-full rounded-full bg-rose"
+                    style={{ width: `${100 - s.percentile}%` }}
+                  />
+                </div>
+              </section>
+
+              {/* ===== 課金ロック: グラデーションでぼかし ===== */}
+              <section>
+                <p className="mb-3 text-sm font-semibold">
+                  詳しい評価・コメント・改善ポイント
+                </p>
+                <div className="relative overflow-hidden rounded-2xl border border-border">
+                  {/* ぼかしたプレビュー本体 */}
+                  <div className="pointer-events-none select-none blur-[6px]" aria-hidden>
+                    <div className="p-6">
+                      <ScoreCardVisual variant="compact" showPartnerCTA={false} />
+                    </div>
+                    <div className="flex flex-col gap-3 px-6 pb-6">
+                      {(['appearance', 'talkability', 'gottman'] as ScoreDimension[]).map((d) => (
+                        <DimensionDetail
+                          key={d}
+                          dimension={d}
+                          score={s.scores[d]}
+                          averageScore={s.averageScores[d]}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  {/* 下に向かって不透明になるグラデーション */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/80 to-background" />
+                  {/* 課金CTA（中央） */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-8 text-center">
+                    <Lock className="h-7 w-7 text-foreground" strokeWidth={1.6} aria-hidden />
+                    <p className="text-sm font-semibold">この先を見るには通知表課金が必要です</p>
+                    <p className="text-[11px] leading-relaxed text-muted-foreground">
+                      6項目スコア・参加者平均比較・匿名コメント12件・<br />
+                      磨きどころ・改善ポイントをすべて閲覧できます。
+                    </p>
+                    <div className="mt-1 flex items-baseline gap-2">
+                      <span className="font-mont text-3xl font-medium tracking-tight">¥1,980</span>
+                      <span className="text-xs text-muted-foreground">／回</span>
+                    </div>
+                    <Button size="lg" onClick={() => setStep('checkout')} className="mt-1 gap-2">
+                      <Lock className="h-4 w-4" aria-hidden />
+                      通知表のすべてを見る
+                    </Button>
+                    <p className="text-[10px] text-muted-foreground">
+                      参加した全イベントの通知表を1回購入で閲覧できます
+                    </p>
+                  </div>
+                </div>
+              </section>
             </div>
           )}
 
@@ -255,6 +272,26 @@ export default function TsuchihyoPage() {
                 </section>
 
               </div>
+
+              {/* ============= 磨くページへの導線（最下部） ============= */}
+              <Link
+                href="/partners"
+                className="group flex items-center gap-4 rounded-3xl border-2 border-rose bg-rose-50 p-6 transition-colors hover:bg-rose-100"
+              >
+                <div className="flex flex-1 flex-col gap-1">
+                  <span className="font-mont text-[10px] uppercase tracking-[0.3em] text-rose">
+                    Next Step
+                  </span>
+                  <p className="text-base font-semibold leading-snug">
+                    磨きどころを、加盟店で整える
+                  </p>
+                  <p className="text-[11px] leading-relaxed text-muted-foreground">
+                    通知表で指摘された箇所を、徳島の提携サロンで。<br />
+                    次のイベントまでに「磨いた自分」へ。
+                  </p>
+                </div>
+                <ArrowRight className="h-6 w-6 shrink-0 text-rose transition-transform group-hover:translate-x-1" aria-hidden />
+              </Link>
 
             </div>
           )}

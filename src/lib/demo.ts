@@ -3704,6 +3704,10 @@ export const DEMO_TSUCHIHYO_SAMPLE = {
   } as Record<ScoreDimension, number>,
   previousEventTitle: '恋フェスジャパン Vol.3',
   previousDate: '2025-07-12',
+  // 順位（無料プレビューで見せる部分）
+  totalParticipants: 54,        // このイベントの参加者数
+  rank: 9,                       // 総合順位
+  percentile: 17,                // 上位何%か（rank/total）
 };
 
 // ========== 通知表 詳細フィードバック ==========
