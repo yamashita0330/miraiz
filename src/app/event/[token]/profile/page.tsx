@@ -10,7 +10,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
-import { DEMO_ME, findDemoEvent, HOBBY_SUGGESTIONS } from '@/lib/demo';
+import {
+  DEMO_ME,
+  findDemoEvent,
+  HOBBY_SUGGESTIONS,
+  EDUCATION_OPTIONS,
+  PERSONALITY_SUGGESTIONS,
+  WANT_CHILDREN_LABEL,
+  MARRIAGE_INTENT_LABEL,
+} from '@/lib/demo';
 
 const FOCUS_OPTIONS = [
   '価値観の一致',
@@ -22,6 +30,8 @@ const FOCUS_OPTIONS = [
 ];
 
 const AGE_RANGE_OPTIONS = ['20代前半', '20代後半', '30代前半', '30代後半', '40代以上', 'こだわらない'];
+const MARRIAGE_INTENT_VALUES = [1, 2, 3, 4, 5] as const;
+const WANT_CHILDREN_VALUES = ['yes', 'maybe', 'no', 'decline'] as const;
 
 export default function EventProfilePage() {
   const params = useParams();
@@ -36,6 +46,10 @@ export default function EventProfilePage() {
   const [nickname, setNickname] = useState(DEMO_ME.name === 'あなた' ? '' : DEMO_ME.name);
   const [occupation, setOccupation] = useState(DEMO_ME.occupation ?? '');
   const [hometown, setHometown] = useState(DEMO_ME.hometown ?? '');
+  const [height, setHeight] = useState(DEMO_ME.height ? String(DEMO_ME.height) : '');
+  const [education, setEducation] = useState(DEMO_ME.education ?? '');
+  const [mbti, setMbti] = useState(DEMO_ME.mbti ?? '');
+  const [personalityTags, setPersonalityTags] = useState<string[]>(DEMO_ME.personality_tags ?? []);
   const [hobbies, setHobbies] = useState<string[]>(DEMO_ME.hobbies ?? []);
   const [bio, setBio] = useState(DEMO_ME.bio === 'デモユーザーです。\nバックエンド未接続でも全画面の動作が確認できます。' ? '' : (DEMO_ME.bio ?? ''));
 
@@ -43,6 +57,10 @@ export default function EventProfilePage() {
   const [oneLineIntro, setOneLineIntro] = useState('');
   const [preferredAge, setPreferredAge] = useState('');
   const [focusPoints, setFocusPoints] = useState<string[]>([]);
+  const [marriageIntent, setMarriageIntent] = useState<number>(DEMO_ME.marriage_intent ?? 0);
+  const [wantChildren, setWantChildren] = useState<string>(DEMO_ME.want_children ?? '');
+  const [dayMark, setDayMark] = useState('');
+  const [idealPartner, setIdealPartner] = useState('');
 
   const [saving, setSaving] = useState(false);
   const [done, setDone] = useState(false);
@@ -52,6 +70,9 @@ export default function EventProfilePage() {
   };
   const toggleFocus = (f: string) => {
     setFocusPoints((prev) => (prev.includes(f) ? prev.filter((x) => x !== f) : prev.length < 3 ? [...prev, f] : prev));
+  };
+  const togglePersonality = (p: string) => {
+    setPersonalityTags((prev) => (prev.includes(p) ? prev.filter((x) => x !== p) : prev.length < 5 ? [...prev, p] : prev));
   };
 
   const canSave = nickname.trim() && oneLineIntro.trim() && preferredAge && focusPoints.length > 0;
@@ -168,13 +189,73 @@ export default function EventProfilePage() {
                   placeholder="例：広告代理店勤務"
                 />
               </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex flex-col gap-1.5">
+                  <Label>出身</Label>
+                  <Input
+                    value={hometown}
+                    onChange={(e) => setHometown(e.target.value)}
+                    placeholder="例：徳島県"
+                  />
+                </div>
+                <div className="flex flex-col gap-1.5">
+                  <Label>身長（cm）</Label>
+                  <Input
+                    type="number"
+                    value={height}
+                    onChange={(e) => setHeight(e.target.value)}
+                    placeholder="例：170"
+                  />
+                </div>
+              </div>
               <div className="flex flex-col gap-1.5">
-                <Label>出身</Label>
+                <Label>学歴</Label>
+                <div className="flex flex-wrap gap-1.5">
+                  {EDUCATION_OPTIONS.map((e) => (
+                    <button
+                      key={e}
+                      type="button"
+                      onClick={() => setEducation(e)}
+                      className={cn(
+                        'rounded-full border px-3 py-1.5 text-[11px] transition-colors',
+                        education === e
+                          ? 'border-foreground bg-foreground text-background'
+                          : 'border-border bg-background hover:bg-muted'
+                      )}
+                    >
+                      {e}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label>MBTI（任意）</Label>
                 <Input
-                  value={hometown}
-                  onChange={(e) => setHometown(e.target.value)}
-                  placeholder="例：徳島県"
+                  value={mbti}
+                  onChange={(e) => setMbti(e.target.value.toUpperCase().slice(0, 4))}
+                  placeholder="例：ENFJ"
+                  className="font-mont uppercase"
                 />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label>性格タグ（最大5つ）</Label>
+                <div className="flex flex-wrap gap-1.5">
+                  {PERSONALITY_SUGGESTIONS.map((p) => (
+                    <button
+                      key={p}
+                      type="button"
+                      onClick={() => togglePersonality(p)}
+                      className={cn(
+                        'rounded-full border px-3 py-1.5 text-[11px] transition-colors',
+                        personalityTags.includes(p)
+                          ? 'border-foreground bg-foreground text-background'
+                          : 'border-border bg-background hover:bg-muted'
+                      )}
+                    >
+                      {p}
+                    </button>
+                  ))}
+                </div>
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label>趣味（最大6つ）</Label>
@@ -272,6 +353,69 @@ export default function EventProfilePage() {
                     </button>
                   ))}
                 </div>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <Label>結婚への意欲</Label>
+                <div className="flex flex-wrap gap-1.5">
+                  {MARRIAGE_INTENT_VALUES.map((v) => (
+                    <button
+                      key={v}
+                      type="button"
+                      onClick={() => setMarriageIntent(v)}
+                      className={cn(
+                        'rounded-full border px-3 py-1.5 text-[11px] transition-colors',
+                        marriageIntent === v
+                          ? 'border-rose bg-rose text-rose-foreground'
+                          : 'border-border bg-background hover:bg-muted'
+                      )}
+                    >
+                      {MARRIAGE_INTENT_LABEL[v]}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <Label>子供の希望</Label>
+                <div className="flex flex-wrap gap-1.5">
+                  {WANT_CHILDREN_VALUES.map((v) => (
+                    <button
+                      key={v}
+                      type="button"
+                      onClick={() => setWantChildren(v)}
+                      className={cn(
+                        'rounded-full border px-3 py-1.5 text-[11px] transition-colors',
+                        wantChildren === v
+                          ? 'border-rose bg-rose text-rose-foreground'
+                          : 'border-border bg-background hover:bg-muted'
+                      )}
+                    >
+                      {WANT_CHILDREN_LABEL[v]}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <Label>こんな人と出会いたい</Label>
+                <textarea
+                  value={idealPartner}
+                  onChange={(e) => setIdealPartner(e.target.value)}
+                  rows={2}
+                  maxLength={100}
+                  placeholder="理想の相手像・大切にしたい関係性など（任意）"
+                  className="w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm leading-relaxed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <Label>当日の目印・服装</Label>
+                <Input
+                  value={dayMark}
+                  onChange={(e) => setDayMark(e.target.value)}
+                  placeholder="例：白いシャツ・黒縁メガネ（受付でスタッフが確認します）"
+                />
               </div>
             </div>
           </section>
