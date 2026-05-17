@@ -139,10 +139,10 @@ export function SimpleProfileSheet({ partner, conversation, onClose, onEvaluate 
           {/* 一言自己紹介 */}
           {partner.bio && (
             <div className="mb-5 rounded-2xl border border-border bg-muted/30 px-4 py-3">
-              <p className="mb-1.5 text-[13px] font-semibold text-muted-foreground">
+              <p className="mb-1.5 text-[12px] font-semibold text-muted-foreground">
                 一言
               </p>
-              <p className="text-base leading-relaxed">{partner.bio}</p>
+              <p className="text-sm leading-relaxed">{partner.bio}</p>
             </div>
           )}
 
@@ -196,7 +196,7 @@ export function SimpleProfileSheet({ partner, conversation, onClose, onEvaluate 
                 )}
                 {partner.personality_tags && partner.personality_tags.length > 0 && (
                   <div>
-                    <p className="mb-1.5 text-[13px] font-medium text-muted-foreground">パーソナリティ</p>
+                    <p className="mb-1.5 text-[12px] font-medium text-muted-foreground">パーソナリティ</p>
                     <div className="flex flex-wrap gap-1.5">
                       {partner.personality_tags.slice(0, 6).map((tag) => {
                         const isShared = sharedPersonality.includes(tag);
@@ -204,7 +204,7 @@ export function SimpleProfileSheet({ partner, conversation, onClose, onEvaluate 
                           <Badge
                             key={tag}
                             variant={isShared ? 'rose' : 'soft'}
-                            className="text-[12px]"
+                            className="text-[11px]"
                           >
                             {tag}
                             {isShared && <span className="ml-1">・共通</span>}
@@ -306,7 +306,7 @@ export function SimpleProfileSheet({ partner, conversation, onClose, onEvaluate 
                     <Badge
                       key={hobby}
                       variant={isShared ? 'rose' : 'outline'}
-                      className="text-[12px]"
+                      className="text-[11px]"
                     >
                       {hobby}
                       {isShared && <span className="ml-1">・共通</span>}
@@ -410,17 +410,17 @@ function InfoCell({
         </span>
       )}
       <div className={cn('flex items-baseline gap-1', match ? 'text-rose' : 'text-muted-foreground')}>
-        <Icon className="h-4 w-4" strokeWidth={1.6} aria-hidden />
-        <span className="text-[13px] tracking-wide">{label}</span>
+        <Icon className="h-3.5 w-3.5" strokeWidth={1.6} aria-hidden />
+        <span className="text-[12px] tracking-wide">{label}</span>
       </div>
-      <p className={cn('mt-1 text-base font-semibold', match && 'text-rose')}>{value}</p>
+      <p className={cn('mt-1 text-sm font-semibold', match && 'text-rose')}>{value}</p>
     </div>
   );
 }
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mb-3 text-base font-bold tracking-tight text-foreground">
+    <p className="mb-2.5 text-sm font-semibold tracking-tight text-foreground">
       {children}
     </p>
   );
@@ -445,10 +445,10 @@ function InfoRow({
         accent ? 'border-rose bg-rose-50' : 'border-border bg-card'
       )}
     >
-      <span className={cn('text-[13px]', accent ? 'text-rose' : 'text-muted-foreground')}>
+      <span className={cn('text-[12px]', accent ? 'text-rose' : 'text-muted-foreground')}>
         {label}
       </span>
-      <span className={cn('text-base font-semibold flex items-center gap-1', accent && 'text-rose')}>
+      <span className={cn('text-sm font-semibold flex items-center gap-1', accent && 'text-rose')}>
         {value}
         {match && (
           <span className="inline-flex items-center gap-0.5 rounded-full bg-rose px-1.5 py-0.5 text-[8px] font-medium text-rose-foreground">
@@ -464,10 +464,10 @@ function InfoRow({
 function FreeNote({ label, text }: { label: string; text: string }) {
   return (
     <div className="rounded-2xl border border-border bg-muted/30 px-4 py-3">
-      <p className="mb-1.5 text-[13px] font-semibold text-muted-foreground">
+      <p className="mb-1.5 text-[12px] font-semibold text-muted-foreground">
         {label}
       </p>
-      <p className="text-base leading-relaxed">{text}</p>
+      <p className="text-sm leading-relaxed">{text}</p>
     </div>
   );
 }
