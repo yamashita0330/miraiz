@@ -86,9 +86,9 @@ export function SimpleProfileSheet({ partner, conversation, onClose, onEvaluate 
           </button>
         </div>
 
-        <div className="px-6 py-6">
+        <div className="px-6 py-7">
           {/* 写真 */}
-          <div className="mb-6 flex items-center gap-4">
+          <div className="mb-8 flex items-center gap-5">
             <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full border border-border bg-muted">
               {partner.photo_url ? (
                 // eslint-disable-next-line @next/next/no-img-element
@@ -121,7 +121,7 @@ export function SimpleProfileSheet({ partner, conversation, onClose, onEvaluate 
 
           {/* 共通点サマリー */}
           {totalCommonCount > 0 && (
-            <div className="mb-5 flex items-center gap-3 rounded-2xl border-2 border-rose bg-rose-50 px-4 py-3">
+            <div className="mb-8 flex items-center gap-3 rounded-2xl border-2 border-rose bg-rose-50 px-4 py-3">
               <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-rose text-rose-foreground">
                 <Sparkles className="h-4 w-4" strokeWidth={1.8} aria-hidden />
               </span>
@@ -138,7 +138,7 @@ export function SimpleProfileSheet({ partner, conversation, onClose, onEvaluate 
 
           {/* 一言自己紹介 */}
           {partner.bio && (
-            <div className="mb-5 rounded-2xl border border-border bg-muted/30 px-4 py-3">
+            <div className="mb-8 rounded-2xl border border-border bg-muted/30 px-4 py-3">
               <p className="mb-1.5 text-[12px] font-semibold text-muted-foreground">
                 一言
               </p>
@@ -148,7 +148,7 @@ export function SimpleProfileSheet({ partner, conversation, onClose, onEvaluate 
 
           {/* 基本情報グリッド */}
           <SectionLabel>基本情報</SectionLabel>
-          <div className="mb-5 grid grid-cols-2 gap-2">
+          <div className="mb-8 grid grid-cols-2 gap-3">
             {partner.occupation && (
               <InfoCell Icon={Briefcase} label="職業" value={partner.occupation} />
             )}
@@ -183,7 +183,7 @@ export function SimpleProfileSheet({ partner, conversation, onClose, onEvaluate 
                   <span className="ml-2 text-rose">・パーソナリティ共通{sharedPersonality.length}個</span>
                 )}
               </SectionLabel>
-              <div className="mb-5 flex flex-col gap-2">
+              <div className="mb-8 flex flex-col gap-2.5">
                 {partner.mbti && (
                   <InfoRow label="MBTI" value={partner.mbti} match={matches.mbti} />
                 )}
@@ -222,7 +222,7 @@ export function SimpleProfileSheet({ partner, conversation, onClose, onEvaluate 
           {(partner.smoking || partner.drinking || partner.weekend_style) && (
             <>
               <SectionLabel>ライフスタイル</SectionLabel>
-              <div className="mb-5 grid grid-cols-2 gap-2">
+              <div className="mb-8 grid grid-cols-2 gap-3">
                 {partner.smoking && (
                   <InfoCell
                     Icon={UserIcon}
@@ -256,7 +256,7 @@ export function SimpleProfileSheet({ partner, conversation, onClose, onEvaluate 
           {(partner.marriage_intent || partner.want_children || partner.wedding_style || partner.work_after_marriage) && (
             <>
               <SectionLabel>結婚観</SectionLabel>
-              <div className="mb-5 flex flex-col gap-2">
+              <div className="mb-8 flex flex-col gap-2.5">
                 {partner.marriage_intent && (
                   <InfoRow
                     label="将来の温度感"
@@ -299,7 +299,7 @@ export function SimpleProfileSheet({ partner, conversation, onClose, onEvaluate 
                   <span className="ml-2 text-rose">・共通{sharedHobbies.length}個</span>
                 )}
               </SectionLabel>
-              <div className="mb-5 flex flex-wrap gap-1.5">
+              <div className="mb-8 flex flex-wrap gap-1.5">
                 {partner.hobbies.slice(0, 12).map((hobby) => {
                   const isShared = sharedHobbies.includes(hobby);
                   return (
@@ -321,7 +321,7 @@ export function SimpleProfileSheet({ partner, conversation, onClose, onEvaluate 
           {(partner.marriage_dream || partner.must_have) && (
             <>
               <SectionLabel>本人の言葉</SectionLabel>
-              <div className="mb-5 flex flex-col gap-2">
+              <div className="mb-8 flex flex-col gap-2.5">
                 {partner.marriage_dream && (
                   <FreeNote label="理想の結婚生活" text={partner.marriage_dream} />
                 )}
@@ -334,7 +334,7 @@ export function SimpleProfileSheet({ partner, conversation, onClose, onEvaluate 
 
           {/* 評価済みなら自分の評価サマリー */}
           {isCompleted && conversation.evaluation && (
-            <div className="mb-5 rounded-2xl border border-success bg-success-50 px-4 py-4">
+            <div className="mb-8 rounded-2xl border border-success bg-success-50 px-4 py-4">
               <p className="mb-2 text-[10px] font-medium uppercase tracking-wider text-success">
                 Your Evaluation
               </p>
@@ -420,7 +420,7 @@ function InfoCell({
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="mb-2.5 text-sm font-semibold tracking-tight text-foreground">
+    <p className="mb-3 text-sm font-semibold tracking-tight text-foreground">
       {children}
     </p>
   );
