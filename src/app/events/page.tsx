@@ -4,7 +4,6 @@ import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
 import { DEMO_EVENTS_LIST, DEMO_USER_STATE, DEMO_EVENT_CONVERSATIONS } from '@/lib/demo';
 import { EventCalendar } from './EventCalendar';
-import { SponsorSlot } from '@/components/SponsorSlot';
 
 export const dynamic = 'force-dynamic';
 
@@ -144,9 +143,6 @@ export default function EventsPage() {
               }))}
             />
           </section>
-
-          {/* ============= 協賛企業プロモ枠 ============= */}
-          <SponsorSlot placement="events" max={2} className="mb-10" />
 
           {/* ============= これからのイベント ============= */}
           {restUpcoming.length > 0 && (
