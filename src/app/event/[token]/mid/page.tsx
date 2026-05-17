@@ -74,7 +74,6 @@ export default function MIDHubPage() {
 
   const completed = conversations.filter((c) => c.status === 'completed').length;
   const total = conversations.length;
-  const inProgress = conversations.find((c) => c.status === 'in_progress');
   const allDone = completed === total;
 
   const handleSubmitEvaluation = (evaluation: MIDEvaluation, turn: number) => {
@@ -180,29 +179,6 @@ export default function MIDHubPage() {
               </div>
               <ChevronRight className="h-5 w-5 text-rose" aria-hidden />
             </Link>
-          )}
-
-          {/* 会話タイマー（進行中の相手） */}
-          {inProgress && !allDone && (
-            <button
-              type="button"
-              onClick={() => setProfileTurn(inProgress.turn)}
-              className="mb-6 flex w-full items-center gap-4 rounded-2xl border-2 border-rose bg-rose-50 px-5 py-5 text-left transition-colors hover:bg-rose-100"
-            >
-              <PartnerAvatar partnerId={inProgress.partner_id} large />
-              <div className="flex-1">
-                <p className="text-[10px] tracking-wider text-rose font-medium">
-                  会話中 ・ {inProgress.turn}人目
-                </p>
-                <p className="mt-1 text-sm font-semibold">
-                  {findDemoMember(inProgress.partner_id)?.name}さんとの会話
-                </p>
-                <p className="mt-1 text-[11px] leading-relaxed text-muted-foreground">
-                  会話終了後、すぐに評価を入力してください（30秒）
-                </p>
-              </div>
-              <ChevronRight className="h-5 w-5 text-rose" aria-hidden />
-            </button>
           )}
 
           {/* キーワード検索 */}
