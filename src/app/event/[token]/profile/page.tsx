@@ -164,14 +164,14 @@ export default function EventProfilePage() {
   }) => {
     const isOn = (v: string) => (Array.isArray(selected) ? selected.includes(v) : selected === v);
     return (
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap gap-2.5">
         {options.map((o) => (
           <button
             key={o.value}
             type="button"
             onClick={() => onSelect(o.value)}
             className={cn(
-              'inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-[11px] transition-colors',
+              'inline-flex items-center gap-1 rounded-full border px-3.5 py-2 text-[11px] transition-colors',
               isOn(o.value)
                 ? accent
                   ? 'border-rose bg-rose text-rose-foreground'
@@ -226,12 +226,12 @@ export default function EventProfilePage() {
           )}
 
           {/* ===== 基本プロフィール ===== */}
-          <section className="mt-8">
+          <section className="mt-10">
             <h2 className="mb-4 text-sm font-semibold tracking-tight text-foreground">
               基本プロフィール
             </h2>
-            <div className="flex flex-col gap-5">
-              <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-2">
                 <Label>職業<span className="ml-1 text-rose">*</span></Label>
                 <Input
                   value={occupation}
@@ -239,7 +239,7 @@ export default function EventProfilePage() {
                   placeholder="例：広告代理店勤務"
                 />
               </div>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-2">
                 <Label>身長</Label>
                 <ChipGroup
                   options={HEIGHT_OPTIONS.map((h) => ({ value: h, label: h }))}
@@ -247,7 +247,7 @@ export default function EventProfilePage() {
                   onSelect={(v) => setHeightRange((prev) => (prev === v ? '' : v))}
                 />
               </div>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-2">
                 <Label>学歴</Label>
                 <ChipGroup
                   options={EDUCATION_OPTIONS.map((e) => ({ value: e, label: e }))}
@@ -255,16 +255,16 @@ export default function EventProfilePage() {
                   onSelect={(v) => setEducation((prev) => (prev === v ? '' : v))}
                 />
               </div>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-2">
                 <Label>性格タグ（最大5つ）</Label>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-2.5">
                   {PERSONALITY_SUGGESTIONS.map((p) => (
                     <button
                       key={p}
                       type="button"
                       onClick={() => togglePersonality(p)}
                       className={cn(
-                        'inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-[11px] transition-colors',
+                        'inline-flex items-center gap-1 rounded-full border px-3.5 py-2 text-[11px] transition-colors',
                         personalityTags.includes(p)
                           ? 'border-foreground bg-foreground text-background'
                           : 'border-border bg-background hover:bg-muted'
@@ -276,16 +276,16 @@ export default function EventProfilePage() {
                   ))}
                 </div>
               </div>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-2">
                 <Label>趣味（最大6つ）<span className="ml-1 text-rose">*</span></Label>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-2.5">
                   {HOBBY_SUGGESTIONS.map((h) => (
                     <button
                       key={h}
                       type="button"
                       onClick={() => toggleHobby(h)}
                       className={cn(
-                        'inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-[11px] transition-colors',
+                        'inline-flex items-center gap-1 rounded-full border px-3.5 py-2 text-[11px] transition-colors',
                         hobbies.includes(h)
                           ? 'border-foreground bg-foreground text-background'
                           : 'border-border bg-background hover:bg-muted'
@@ -301,15 +301,15 @@ export default function EventProfilePage() {
           </section>
 
           {/* ===== ライフスタイル ===== */}
-          <section className="mt-10">
+          <section className="mt-14">
             <h2 className="mb-1 text-sm font-semibold tracking-tight text-foreground">
               ライフスタイル
             </h2>
             <p className="mb-4 text-[11px] text-muted-foreground">
               生活リズムや価値観が近い相手とマッチしやすくなります。
             </p>
-            <div className="flex flex-col gap-5">
-              <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-2">
                 <Label>お酒</Label>
                 <ChipGroup
                   options={DRINKING_VALUES.map((v) => ({ value: v, label: DRINKING_LABEL[v] }))}
@@ -317,7 +317,7 @@ export default function EventProfilePage() {
                   onSelect={(v) => setDrinking((prev) => (prev === v ? '' : v))}
                 />
               </div>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-2">
                 <Label>タバコ</Label>
                 <ChipGroup
                   options={SMOKING_VALUES.map((v) => ({ value: v, label: SMOKING_LABEL[v] }))}
@@ -325,7 +325,7 @@ export default function EventProfilePage() {
                   onSelect={(v) => setSmoking((prev) => (prev === v ? '' : v))}
                 />
               </div>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-2">
                 <Label>休日</Label>
                 <ChipGroup
                   options={HOLIDAY_VALUES.map((v) => ({ value: v, label: HOLIDAY_TYPE_LABEL[v] }))}
@@ -333,7 +333,7 @@ export default function EventProfilePage() {
                   onSelect={(v) => setHolidayType((prev) => (prev === v ? '' : v))}
                 />
               </div>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-2">
                 <Label>結婚後の働き方</Label>
                 <ChipGroup
                   options={WORK_AFTER_MARRIAGE_VALUES.map((v) => ({ value: v, label: WORK_AFTER_MARRIAGE_LABEL[v] }))}
@@ -345,15 +345,15 @@ export default function EventProfilePage() {
           </section>
 
           {/* ===== 結婚観 ===== */}
-          <section className="mt-10">
+          <section className="mt-14">
             <h2 className="mb-1 text-sm font-semibold tracking-tight text-rose">
               結婚観
             </h2>
             <p className="mb-4 text-[11px] text-muted-foreground">
               真剣度のすり合わせに使う大切な項目です。
             </p>
-            <div className="flex flex-col gap-5">
-              <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-2">
                 <Label>結婚への意欲<span className="ml-1 text-rose">*</span></Label>
                 <ChipGroup
                   options={MARRIAGE_INTENT_VALUES.map((v) => ({ value: String(v), label: MARRIAGE_INTENT_LABEL[v] }))}
@@ -362,7 +362,7 @@ export default function EventProfilePage() {
                   accent
                 />
               </div>
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-2">
                 <Label>子供の希望<span className="ml-1 text-rose">*</span></Label>
                 <ChipGroup
                   options={WANT_CHILDREN_VALUES.map((v) => ({ value: v, label: WANT_CHILDREN_LABEL[v] }))}
@@ -375,15 +375,15 @@ export default function EventProfilePage() {
           </section>
 
           {/* ===== イベント当日用 ===== */}
-          <section className="mt-10">
+          <section className="mt-14">
             <h2 className="mb-1 text-sm font-semibold tracking-tight text-rose">
               当日のマッチング
             </h2>
             <p className="mb-4 text-[11px] text-muted-foreground">
               当日のマッチング精度を高める項目です。
             </p>
-            <div className="flex flex-col gap-5">
-              <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-8">
+              <div className="flex flex-col gap-2">
                 <Label>希望する相手の年齢層</Label>
                 <ChipGroup
                   options={AGE_RANGE_OPTIONS.map((a) => ({ value: a, label: a }))}
@@ -393,7 +393,7 @@ export default function EventProfilePage() {
                 />
               </div>
 
-              <div className="flex flex-col gap-1.5">
+              <div className="flex flex-col gap-2">
                 <Label>当日重視したいこと（最大3つ）</Label>
                 <ChipGroup
                   options={FOCUS_OPTIONS.map((f) => ({ value: f, label: f }))}
@@ -406,7 +406,7 @@ export default function EventProfilePage() {
           </section>
 
           {/* 保存 */}
-          <div className="mt-10">
+          <div className="mt-12">
             <Button
               fullWidth
               size="lg"
