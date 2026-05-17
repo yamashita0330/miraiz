@@ -23,6 +23,7 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { findDemoEvent, hasEventTicket, DEMO_EVENT_INTENTIONS, type EventIntention } from '@/lib/demo';
 import { IntentionCard } from './IntentionCard';
+import { SponsorSlot } from '@/components/SponsorSlot';
 
 export default function EventDetailPage() {
   const params = useParams<{ token: string }>();
@@ -247,6 +248,9 @@ export default function EventDetailPage() {
               </ul>
             </section>
           )}
+
+          {/* 協賛企業プロモ枠 */}
+          <SponsorSlot placement="event_detail" max={1} className="mb-6" />
 
           {/* CTA */}
           {hasTicket ? (

@@ -3520,36 +3520,138 @@ export const DEMO_NEXT_EVENT = {
   videoDuration: '2:48',
 };
 
-export const DEMO_SPONSORS = [
+// アプリ内 協賛・加盟店プロモ枠（広告）
+export type SponsorPlacement = 'home' | 'events' | 'event_detail' | 'mypage';
+export type SponsorStatus = 'active' | 'scheduled' | 'ended';
+
+export interface SponsorAd {
+  id: string;
+  name: string;
+  category: string;
+  tagline: string;
+  cta: string;
+  accent: string; // アクセントカラー（hex）
+  placements: SponsorPlacement[];
+  period_start: string;
+  period_end: string;
+  monthly_fee: number; // 月額出稿料（円）
+  impressions: number;
+  clicks: number;
+  status: SponsorStatus;
+  url: string;
+}
+
+export const DEMO_SPONSORS: SponsorAd[] = [
   {
     id: 'sp1',
     name: 'IBJ徳島支店',
     category: '結婚相談所',
-    tagline: '本気の方へ。専門カウンセラー無料相談。',
+    tagline: '本気の方へ。専門カウンセラーが無料でご相談に乗ります。',
     cta: '無料カウンセリング予約',
+    accent: '#b45309',
+    placements: ['home', 'mypage'],
+    period_start: '2026-05-01',
+    period_end: '2026-07-31',
+    monthly_fee: 30000,
+    impressions: 4820,
+    clicks: 186,
+    status: 'active',
+    url: 'https://example.com/ibj-tokushima',
   },
   {
     id: 'sp2',
-    name: 'BRIDAL J徳島',
+    name: 'BRIDAL J 徳島',
     category: 'ジュエリー',
-    tagline: '婚約指輪・結婚指輪 県内最大級。',
+    tagline: '婚約指輪・結婚指輪 県内最大級の品揃え。来店予約で特典あり。',
     cta: 'カタログを見る',
+    accent: '#9333ea',
+    placements: ['mypage', 'event_detail'],
+    period_start: '2026-05-01',
+    period_end: '2026-06-30',
+    monthly_fee: 25000,
+    impressions: 3110,
+    clicks: 94,
+    status: 'active',
+    url: 'https://example.com/bridal-j',
   },
   {
     id: 'sp3',
     name: 'HOTEL CLEMENT TOKUSHIMA',
     category: 'ホテル・デート',
-    tagline: '初デートは徳島駅前の名門ホテルで。',
-    cta: 'プラン詳細',
+    tagline: '初デートは徳島駅前の名門ホテルで。ランチ＆アフタヌーンティー。',
+    cta: 'デートプランを見る',
+    accent: '#0e7490',
+    placements: ['events', 'event_detail'],
+    period_start: '2026-05-10',
+    period_end: '2026-08-31',
+    monthly_fee: 28000,
+    impressions: 2640,
+    clicks: 132,
+    status: 'active',
+    url: 'https://example.com/clement',
   },
   {
     id: 'sp4',
     name: 'le BENKEI',
     category: 'レストラン',
-    tagline: '2人のための隠れ家フレンチ。',
-    cta: '予約する',
+    tagline: '2人のための隠れ家フレンチ。記念日コースをご用意。',
+    cta: '空席を確認する',
+    accent: '#be123c',
+    placements: ['events'],
+    period_start: '2026-05-15',
+    period_end: '2026-06-30',
+    monthly_fee: 18000,
+    impressions: 1280,
+    clicks: 71,
+    status: 'active',
+    url: 'https://example.com/le-benkei',
+  },
+  {
+    id: 'sp5',
+    name: '美意識 サロン徳島',
+    category: '美容・脱毛',
+    tagline: 'デート前の自分磨きに。フェイシャル＆脱毛 体験プラン受付中。',
+    cta: '体験を予約する',
+    accent: '#db2777',
+    placements: ['mypage', 'home'],
+    period_start: '2026-06-01',
+    period_end: '2026-08-31',
+    monthly_fee: 22000,
+    impressions: 0,
+    clicks: 0,
+    status: 'scheduled',
+    url: 'https://example.com/miishiki',
+  },
+  {
+    id: 'sp6',
+    name: 'スタジオ アンジュ',
+    category: 'フォトスタジオ',
+    tagline: 'プロフィール写真を魅力的に。婚活フォトプラン。',
+    cta: '撮影プランを見る',
+    accent: '#475569',
+    placements: ['mypage'],
+    period_start: '2026-03-01',
+    period_end: '2026-04-30',
+    monthly_fee: 15000,
+    impressions: 5390,
+    clicks: 241,
+    status: 'ended',
+    url: 'https://example.com/studio-ange',
   },
 ];
+
+// 指定の掲載枠で表示すべき協賛広告を取得
+export function getSponsorsFor(placement: SponsorPlacement): SponsorAd[] {
+  return DEMO_SPONSORS.filter(
+    (s) => s.status === 'active' && s.placements.includes(placement)
+  );
+}
+
+export const SPONSOR_STATUS_LABEL: Record<SponsorStatus, string> = {
+  active: '掲載中',
+  scheduled: '掲載予定',
+  ended: '掲載終了',
+};
 
 export const DEMO_GRADUATES = [
   {

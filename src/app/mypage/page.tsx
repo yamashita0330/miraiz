@@ -31,6 +31,7 @@ import { Badge } from '@/components/ui/badge';
 import { HOPE_TYPE_LABEL } from '@/lib/constants';
 import type { UserProfile } from '@/lib/types';
 import { DEMO_MODE, DEMO_ME, DEMO_USER_STATE } from '@/lib/demo';
+import { SponsorSlot } from '@/components/SponsorSlot';
 
 export const dynamic = 'force-dynamic';
 
@@ -265,6 +266,8 @@ export default async function MyPage() {
               <GridMenuItem href="/legal" Icon={Scale} label="法的情報" sub="届出・規約" />
             </div>
           </section>
+
+          <SponsorSlot placement="mypage" max={2} className="mt-10" />
 
         </div>
       </main>

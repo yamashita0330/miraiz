@@ -364,6 +364,12 @@ export default function AdminDashboard() {
                 Icon={TrendingUp}
               />
               <ManagementCard
+                href="/staff/sponsors"
+                title="協賛広告管理"
+                desc="アプリ内広告枠・出稿企業・掲載実績・広告収益"
+                Icon={Megaphone}
+              />
+              <ManagementCard
                 href="/staff/events"
                 title="イベント管理"
                 desc="新規作成・QR発行・参加者管理"
