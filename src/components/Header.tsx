@@ -29,11 +29,21 @@ export function Header({ showLogout = false }: HeaderProps) {
       <div className="mx-auto flex h-11 max-w-xl items-center justify-between px-4">
         <Link
           href="/home"
-          className="flex items-center gap-1.5 text-sm font-semibold tracking-tight text-background"
+          className="flex items-center gap-2"
           aria-label="MIRAIZホーム"
         >
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-background" aria-hidden />
-          MIRAIZ
+          <span className="relative block h-7 w-7 shrink-0 overflow-hidden rounded-md bg-white">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo.png"
+              alt=""
+              className="absolute max-w-none"
+              style={{ width: '137%', left: '-18.5%', top: '-9.6%' }}
+            />
+          </span>
+          <span className="text-sm font-semibold tracking-[0.08em] text-background">
+            MIRAIZ
+          </span>
         </Link>
         {showLogout && (
           <button

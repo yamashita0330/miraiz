@@ -44,7 +44,11 @@ function LoginForm() {
 
   return (
     <main className="min-h-screen bg-background">
-      <div className="mx-auto max-w-xl px-8 pt-20 pb-12">
+      <div className="mx-auto max-w-xl px-8 pt-16 pb-12">
+        <div className="mb-10 flex flex-col items-center gap-3">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.png" alt="MIRAIZ" className="h-28 w-28" />
+        </div>
         <div className="mb-12 flex flex-col gap-2">
           <span className="font-mont text-[11px] uppercase tracking-[0.4em] text-muted-foreground">
             Login
