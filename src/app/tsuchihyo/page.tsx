@@ -208,7 +208,7 @@ export default function TsuchihyoPage() {
               <div id="look" className="scroll-mt-24 flex flex-col gap-12">
                 <LookFeedbackSection />
                 <section className="border-t border-border pt-12">
-                  <h2 className="mb-6 text-xs tracking-[0.15em] text-muted-foreground">
+                  <h2 className="mb-6 text-xs font-semibold tracking-[0.15em] text-foreground">
                     スコア詳細
                   </h2>
                   <ScoreCardVisual variant="full" showPartnerCTA />
@@ -219,7 +219,7 @@ export default function TsuchihyoPage() {
               <div id="comm" className="scroll-mt-24">
                 <section className="border-t border-border pt-12">
                   <div className="mb-6 flex items-baseline justify-between">
-                    <h2 className="text-xs tracking-[0.15em] text-muted-foreground">
+                    <h2 className="text-xs font-semibold tracking-[0.15em] text-foreground">
                       項目別フィードバック
                     </h2>
                   </div>
@@ -243,7 +243,7 @@ export default function TsuchihyoPage() {
                 </section>
 
                 <section className="flex flex-col gap-6 border-t border-border pt-12">
-                  <h2 className="text-xs tracking-[0.15em] text-muted-foreground">
+                  <h2 className="text-xs font-semibold tracking-[0.15em] text-foreground">
                     イベントでの評価
                   </h2>
                   <div className="rounded-2xl border border-border p-8 text-center">
@@ -507,7 +507,7 @@ function HeroSummarySection() {
           <div className="mt-3 flex items-baseline justify-between">
             <span className="text-xs opacity-50">平均 {Math.round(TOKUSHIMA_AVG_TOTAL)}</span>
             <span className="font-mont text-2xl font-semibold text-rose">
-              上位 <CountUp to={percentile} duration={900} />%
+              上位 <CountUp to={percentile} />%
             </span>
           </div>
         </div>
@@ -551,8 +551,8 @@ function HeroSummarySection() {
   );
 }
 
-// 数字が 0 からカウントアップする演出（ブブブッと増える）
-function CountUp({ to, duration = 1100 }: { to: number; duration?: number }) {
+// 数字が 0 からカウントアップする演出（ゆっくり増える）
+function CountUp({ to, duration = 2400 }: { to: number; duration?: number }) {
   const [val, setVal] = useState(0);
   useEffect(() => {
     let raf = 0;
@@ -578,7 +578,7 @@ function GaugeFill({ target, className }: { target: number; className?: string }
   }, [target]);
   return (
     <div
-      className={cn('transition-[width] duration-1000 ease-out', className)}
+      className={cn('transition-[width] [transition-duration:2400ms] ease-out', className)}
       style={{ width: `${w}%` }}
     />
   );
@@ -628,7 +628,7 @@ function EventHistorySection() {
   return (
     <section className="flex flex-col gap-6 border-t border-border pt-12">
       <div className="flex items-baseline justify-between">
-        <h2 className="text-xs tracking-[0.15em] text-muted-foreground">
+        <h2 className="text-xs font-semibold tracking-[0.15em] text-foreground">
           参加履歴
         </h2>
         <span className="text-[10px] text-muted-foreground">
@@ -724,7 +724,7 @@ function SwipeStatsSection() {
 
   return (
     <section className="flex flex-col gap-6 border-t border-border pt-12">
-      <h2 className="text-xs tracking-[0.15em] text-muted-foreground">
+      <h2 className="text-xs font-semibold tracking-[0.15em] text-foreground">
         スワイプ統計
       </h2>
 
@@ -819,7 +819,7 @@ function SelfEsteemTimelineSection() {
 
   return (
     <section className="flex flex-col gap-6 border-t border-border pt-12">
-      <h2 className="text-xs tracking-[0.15em] text-muted-foreground">
+      <h2 className="text-xs font-semibold tracking-[0.15em] text-foreground">
         自己肯定感
       </h2>
 
@@ -921,7 +921,7 @@ function LookFeedbackSection() {
     <section className="flex flex-col gap-6 border-t border-border pt-12">
       <div className="flex items-baseline justify-between">
         <div>
-          <h2 className="text-xs tracking-[0.15em] text-muted-foreground">
+          <h2 className="text-xs font-semibold tracking-[0.15em] text-foreground">
             見た目フィードバック
           </h2>
           <p className="mt-2 text-[11px] text-muted-foreground">
