@@ -578,7 +578,7 @@ function GaugeFill({ target, className }: { target: number; className?: string }
   }, [target]);
   return (
     <div
-      className={cn('transition-[width] duration-[1100ms] ease-out', className)}
+      className={cn('transition-[width] duration-1000 ease-out', className)}
       style={{ width: `${w}%` }}
     />
   );

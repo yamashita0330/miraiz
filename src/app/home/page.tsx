@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { ArrowRight, Lock, Star, FileBarChart2 } from 'lucide-react';
+import { ArrowRight, FileBarChart2 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
@@ -11,7 +11,6 @@ import {
   DEMO_MODE,
   DEMO_MEMBERS,
   DEMO_MUTUAL_IDS,
-  DEMO_EVENT_COMMENTS,
   DEMO_TSUCHIHYO_SAMPLE,
 } from '@/lib/demo';
 
@@ -86,42 +85,6 @@ export default async function HomeFeedPage() {
 
           {/* スワイプデッキ + 完了後分析 */}
           <HomeContent members={members} mutualIds={mutualIds} />
-
-          {/* 補助動線 */}
-          <section className="mt-12 flex flex-col gap-3 border-t border-border pt-12">
-            <Link
-              href="/favorites"
-              className="group flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-5 transition-all hover:border-foreground/30"
-            >
-              <div className="flex items-center gap-3">
-                <Star className="h-4 w-4 text-muted-foreground" strokeWidth={1.8} aria-hidden />
-                <div className="flex flex-col gap-0.5">
-                  <span className="text-sm font-medium">気になる一覧</span>
-                  <span className="text-[10px] text-muted-foreground">両想い・送ったいいね</span>
-                </div>
-              </div>
-              <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-0.5" aria-hidden />
-            </Link>
-
-            <Link
-              href="/tsuchihyo"
-              className="group flex flex-col gap-2 rounded-2xl border border-border bg-card p-5 transition-all hover:border-foreground/30"
-            >
-              <div className="flex items-baseline justify-between">
-                <span className="font-mont text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
-                  Voices from the Event
-                </span>
-                <span className="inline-flex items-center gap-1 rounded-full border border-border bg-background px-2 py-0.5 font-mont text-[9px] tracking-wider">
-                  <Lock className="h-2.5 w-2.5" aria-hidden />
-                  Locked
-                </span>
-              </div>
-              <p className="text-sm font-semibold">
-                前回のイベントで受けたコメント {DEMO_EVENT_COMMENTS.length}件
-              </p>
-              <span className="text-[11px] text-muted-foreground">¥1,980 で全件閲覧 →</span>
-            </Link>
-          </section>
 
         </div>
       </main>

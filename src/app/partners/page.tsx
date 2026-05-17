@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Tag, ScanLine, ArrowRight, Sparkles, ChevronRight } from 'lucide-react';
+import { Tag, ScanLine, ArrowRight, Sparkles, ChevronRight, MessageCircle } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
 import { BodyDiagram, type BodyPartStatus } from '@/components/BodyDiagram';
@@ -71,6 +71,25 @@ export default function PartnersIndexPage() {
               </li>
             </ul>
           </section>
+
+          {/* ============= 前回イベントの見た目コメント ============= */}
+          <Link
+            href="/tsuchihyo"
+            className="group mt-4 flex items-center gap-4 rounded-2xl border-2 border-foreground bg-foreground p-5 text-background transition-opacity hover:opacity-95"
+          >
+            <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-background/15">
+              <MessageCircle className="h-5 w-5" strokeWidth={1.8} aria-hidden />
+            </span>
+            <div className="flex-1">
+              <p className="text-sm font-semibold leading-snug">
+                前回のイベントで受けた見た目のコメント
+              </p>
+              <p className="mt-0.5 text-[11px] opacity-80">
+                参加者からの匿名フィードバックを通知表で確認
+              </p>
+            </div>
+            <ArrowRight className="h-5 w-5 shrink-0 transition-transform group-hover:translate-x-1" aria-hidden />
+          </Link>
 
           {/* ============= あなたに指摘された点におすすめ ============= */}
           <RecommendedSection />

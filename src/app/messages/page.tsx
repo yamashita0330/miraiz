@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { User as UserIcon, MessageCircle, Heart, ChevronRight } from 'lucide-react';
+import { User as UserIcon, MessageCircle, Heart, ChevronRight, Star, ArrowRight } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
@@ -51,6 +51,21 @@ export default async function MessagesListPage() {
               両想いになった相手とアプリ内で直接やりとりできます。
             </p>
           </header>
+
+          {/* ============= 気になる一覧 ============= */}
+          <Link
+            href="/favorites"
+            className="group mt-6 flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-5 transition-all hover:border-foreground/30"
+          >
+            <div className="flex items-center gap-3">
+              <Star className="h-4 w-4 text-muted-foreground" strokeWidth={1.8} aria-hidden />
+              <div className="flex flex-col gap-0.5">
+                <span className="text-sm font-medium">気になる一覧</span>
+                <span className="text-[10px] text-muted-foreground">両想い・送ったいいね</span>
+              </div>
+            </div>
+            <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-0.5" aria-hidden />
+          </Link>
 
           {/* ============= あなたにいいねした人 ============= */}
           {likedMe.length > 0 && (
