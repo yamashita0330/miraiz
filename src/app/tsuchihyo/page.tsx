@@ -73,7 +73,9 @@ export default function TsuchihyoPage() {
                 </p>
                 <div className="mt-3 flex items-baseline gap-2">
                   <span className="text-sm opacity-70">上位</span>
-                  <span className="font-mont text-6xl font-medium leading-none">{s.percentile}</span>
+                  <span className="font-mont text-6xl font-medium leading-none">
+                    <CountUp to={s.percentile} />
+                  </span>
                   <span className="text-2xl opacity-70">%</span>
                 </div>
                 <p className="mt-3 text-[13px] opacity-80">
@@ -85,10 +87,7 @@ export default function TsuchihyoPage() {
                     : '伸びしろがあります。'}
                 </p>
                 <div className="mt-4 h-1.5 overflow-hidden rounded-full bg-background/20">
-                  <div
-                    className="h-full rounded-full bg-rose"
-                    style={{ width: `${100 - s.percentile}%` }}
-                  />
+                  <GaugeFill target={100 - s.percentile} className="h-full rounded-full bg-rose" />
                 </div>
               </section>
 
@@ -485,11 +484,14 @@ function HeroSummarySection() {
     <section>
       {/* ヒーロー：総合スコア（大きく） */}
       <div className="rounded-3xl border-2 border-foreground bg-foreground p-8 text-background">
-        <div className="flex items-baseline gap-2">
+        <p className="text-[10px] tracking-[0.2em] opacity-60">
+          総合スコア（100点満点）
+        </p>
+        <div className="mt-2 flex items-baseline gap-2">
           <span className="font-mont text-7xl font-medium tracking-tight">
-            {Math.round(totalAvg)}
+            <CountUp to={Math.round(totalAvg)} />
           </span>
-          <span className="font-mont text-lg opacity-50">/100</span>
+          <span className="font-mont text-lg opacity-50">点 / 100</span>
         </div>
 
         {/* 平均との差をシンプルに大きく */}
@@ -500,15 +502,12 @@ function HeroSummarySection() {
               style={{ left: `${TOKUSHIMA_AVG_TOTAL}%` }}
               aria-hidden
             />
-            <div
-              className="h-full bg-rose"
-              style={{ width: `${Math.min(100, totalAvg)}%` }}
-            />
+            <GaugeFill target={Math.min(100, totalAvg)} className="h-full bg-rose" />
           </div>
           <div className="mt-3 flex items-baseline justify-between">
             <span className="text-xs opacity-50">平均 {Math.round(TOKUSHIMA_AVG_TOTAL)}</span>
             <span className="font-mont text-2xl font-semibold text-rose">
-              上位 {percentile}%
+              上位 <CountUp to={percentile} duration={900} />%
             </span>
           </div>
         </div>
@@ -549,6 +548,39 @@ function HeroSummarySection() {
         />
       </div>
     </section>
+  );
+}
+
+// 数字が 0 からカウントアップする演出（ブブブッと増える）
+function CountUp({ to, duration = 1100 }: { to: number; duration?: number }) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    let raf = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const p = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - p, 3); // easeOutCubic
+      setVal(Math.round(to * eased));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [to, duration]);
+  return <>{val}</>;
+}
+
+// ゲージが 0 から目標値まで伸びる演出
+function GaugeFill({ target, className }: { target: number; className?: string }) {
+  const [w, setW] = useState(0);
+  useEffect(() => {
+    const t = setTimeout(() => setW(target), 80);
+    return () => clearTimeout(t);
+  }, [target]);
+  return (
+    <div
+      className={cn('transition-[width] duration-[1100ms] ease-out', className)}
+      style={{ width: `${w}%` }}
+    />
   );
 }
 
