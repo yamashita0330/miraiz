@@ -144,7 +144,7 @@ export function MIDEvaluationForm({ partner, turn, onSubmit, onCancel }: Props) 
         <div className="mx-auto max-w-xl px-6 py-8">
           {/* 相手プロフィール（小） */}
           <div className="mb-8 flex items-center gap-3 rounded-2xl border border-border bg-muted/30 px-4 py-3">
-            <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-border bg-muted">
+            <div className="relative h-[72px] w-[72px] shrink-0 overflow-hidden rounded-full border border-border bg-muted">
               {partner.photo_url ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={partner.photo_url} alt="" className="h-full w-full object-cover" />

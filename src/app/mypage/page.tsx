@@ -155,8 +155,8 @@ export default async function MyPage() {
                 className="block relative bg-gradient-to-r from-foreground to-foreground/85 p-6 text-background"
               >
                 <div className="flex flex-col gap-1">
-                  <span className="font-mont text-[10px] uppercase tracking-[0.4em] opacity-70">
-                    Premium Plan
+                  <span className="text-[10px] tracking-[0.2em] opacity-70">
+                    プレミアムプラン
                   </span>
                   <p className="text-xl font-semibold leading-tight">
                     93%のユーザーが、<br />実際に出会えています。
@@ -200,8 +200,8 @@ export default async function MyPage() {
             >
               <div className="flex items-center justify-between gap-6">
                 <div className="flex flex-col gap-2">
-                  <span className="font-mont text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
-                    Premium
+                  <span className="text-[10px] tracking-[0.2em] text-muted-foreground">
+                    プレミアム
                   </span>
                   <p className="text-base font-semibold">プレミアム会員になる</p>
                   <p className="text-xs leading-relaxed text-muted-foreground">
@@ -214,8 +214,8 @@ export default async function MyPage() {
           )}
 
           <section className="mt-12">
-            <h2 className="mb-4 text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-              Service
+            <h2 className="mb-4 text-xs tracking-[0.15em] text-muted-foreground">
+              サービス
             </h2>
             <div className="grid grid-cols-3 gap-2">
               <GridMenuItem href="/diagnostic" Icon={Brain} label="恋愛タイプ診断" sub="12問・5分" />
@@ -231,8 +231,8 @@ export default async function MyPage() {
           </section>
 
           <section className="mt-10">
-            <h2 className="mb-4 text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-              Community
+            <h2 className="mb-4 text-xs tracking-[0.15em] text-muted-foreground">
+              コミュニティ
             </h2>
             <div className="grid grid-cols-3 gap-2">
               <GridMenuItem href="/graduates" Icon={Sparkles} label="卒業生" sub="成婚報告" />
@@ -241,8 +241,8 @@ export default async function MyPage() {
           </section>
 
           <section className="mt-10">
-            <h2 className="mb-4 text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-              Safety
+            <h2 className="mb-4 text-xs tracking-[0.15em] text-muted-foreground">
+              安全・サポート
             </h2>
             <div className="grid grid-cols-3 gap-2">
               <GridMenuItem href="/safety/blocked" Icon={Ban} label="ブロック一覧" sub="管理" />

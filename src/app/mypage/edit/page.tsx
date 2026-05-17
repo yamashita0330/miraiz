@@ -405,7 +405,7 @@ export default function EditProfilePage() {
 
           <form onSubmit={handleSubmit} className="mt-12 flex flex-col gap-16">
             {/* 基本情報 */}
-            <Section title="Basic">
+            <Section title="基本情報">
               <Field label="ニックネーム">
                 <Input type="text" required maxLength={20} value={name} onChange={(e) => setName(e.target.value)} />
               </Field>
@@ -451,7 +451,7 @@ export default function EditProfilePage() {
             </Section>
 
             {/* 個人プロフィール */}
-            <Section title="Personal" desc="記入が多いほど両想い率が上がります">
+            <Section title="プロフィール詳細" desc="記入が多いほど両想い率が上がります">
               <Field label="職業">
                 <Input type="text" maxLength={50} placeholder="例：保育士／IT企画" value={occupation} onChange={(e) => setOccupation(e.target.value)} />
               </Field>
@@ -532,7 +532,7 @@ export default function EditProfilePage() {
             </Section>
 
             {/* 結婚観 */}
-            <Section title="Marriage View" desc="将来像を共有することで本気度の高い相手と出会えます">
+            <Section title="結婚観" desc="将来像を共有することで本気度の高い相手と出会えます">
               <Field label="結婚への意欲">
                 <ChoiceGrid<1 | 2 | 3 | 4 | 5>
                   cols={1}
@@ -639,7 +639,7 @@ export default function EditProfilePage() {
             </Section>
 
             {/* 関係性プラン */}
-            <Section title="Relationship Style" desc="付き合い方・連絡頻度・お金の感覚">
+            <Section title="お付き合いのスタイル" desc="付き合い方・連絡頻度・お金の感覚">
               <Field label="会いたい頻度">
                 <ChoiceGrid<DateFrequency>
                   cols={2}
@@ -698,7 +698,7 @@ export default function EditProfilePage() {
             </Section>
 
             {/* パーソナリティ */}
-            <Section title="Personality">
+            <Section title="性格・人柄">
               <Field label="MBTI（任意）">
                 <div className="grid grid-cols-4 gap-2">
                   {MBTI_TYPES.map((t) => (
@@ -742,7 +742,7 @@ export default function EditProfilePage() {
             </Section>
 
             {/* ライフスタイル */}
-            <Section title="Lifestyle">
+            <Section title="ライフスタイル">
               <Field label={`趣味（最大10個・現在${hobbies.length}）`}>
                 {hobbies.length > 0 && (
                   <div className="mb-3 flex flex-wrap gap-2">
@@ -905,7 +905,7 @@ export default function EditProfilePage() {
             </Section>
 
             {/* メディア（動画自己紹介） */}
-            <Section title="Media" desc="動画があるプロフィールは閲覧時間が3倍に伸びます">
+            <Section title="写真・動画" desc="動画があるプロフィールは閲覧時間が3倍に伸びます">
               <VideoUpload
                 initialUrl={videoPreviewUrl}
                 onChange={(file, url) => {
@@ -942,7 +942,7 @@ function Section({
   return (
     <section className="flex flex-col gap-6">
       <div className="flex flex-col gap-2 border-t border-border pt-12">
-        <h2 className="text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
+        <h2 className="text-sm font-semibold tracking-tight">
           {title}
         </h2>
         {desc && <p className="text-xs leading-relaxed text-muted-foreground">{desc}</p>}
