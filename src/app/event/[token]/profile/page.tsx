@@ -18,6 +18,10 @@ import {
   PERSONALITY_SUGGESTIONS,
   WANT_CHILDREN_LABEL,
   MARRIAGE_INTENT_LABEL,
+  SMOKING_LABEL,
+  DRINKING_LABEL,
+  HOLIDAY_TYPE_LABEL,
+  WORK_AFTER_MARRIAGE_LABEL,
 } from '@/lib/demo';
 
 const FOCUS_OPTIONS = [
@@ -30,8 +34,25 @@ const FOCUS_OPTIONS = [
 ];
 
 const AGE_RANGE_OPTIONS = ['20代前半', '20代後半', '30代前半', '30代後半', '40代以上', 'こだわらない'];
+const HEIGHT_OPTIONS = ['〜155cm', '156〜160cm', '161〜165cm', '166〜170cm', '171〜175cm', '176〜180cm', '181cm〜'];
 const MARRIAGE_INTENT_VALUES = [1, 2, 3, 4, 5] as const;
 const WANT_CHILDREN_VALUES = ['yes', 'maybe', 'no', 'decline'] as const;
+const SMOKING_VALUES = ['no', 'sometimes', 'yes'] as const;
+const DRINKING_VALUES = ['no', 'sometimes', 'yes'] as const;
+const HOLIDAY_VALUES = ['weekend', 'weekday', 'shift', 'irregular'] as const;
+const WORK_AFTER_MARRIAGE_VALUES = ['dual', 'full', 'flexible', 'undecided'] as const;
+
+// DEMO_ME.height（数値）を選択肢の範囲ラベルに変換
+function heightToRange(h: number | undefined): string {
+  if (!h) return '';
+  if (h <= 155) return '〜155cm';
+  if (h <= 160) return '156〜160cm';
+  if (h <= 165) return '161〜165cm';
+  if (h <= 170) return '166〜170cm';
+  if (h <= 175) return '171〜175cm';
+  if (h <= 180) return '176〜180cm';
+  return '181cm〜';
+}
 
 export default function EventProfilePage() {
   const params = useParams();
@@ -39,28 +60,27 @@ export default function EventProfilePage() {
   const token = (params?.token as string) ?? '';
   const event = findDemoEvent(token);
 
-  // マイページのプロフィールが入力済みか（名前以外に何か入っていれば「入力済み」とみなす）
-  const hasMypageProfile = Boolean(DEMO_ME.occupation || DEMO_ME.bio || (DEMO_ME.hobbies && DEMO_ME.hobbies.length > 0));
+  // マイページのプロフィールが入力済みか
+  const hasMypageProfile = Boolean(DEMO_ME.occupation || (DEMO_ME.hobbies && DEMO_ME.hobbies.length > 0));
 
   // 基本プロフィール（マイページから引き継ぎ）
-  const [nickname, setNickname] = useState(DEMO_ME.name === 'あなた' ? '' : DEMO_ME.name);
   const [occupation, setOccupation] = useState(DEMO_ME.occupation ?? '');
-  const [hometown, setHometown] = useState(DEMO_ME.hometown ?? '');
-  const [height, setHeight] = useState(DEMO_ME.height ? String(DEMO_ME.height) : '');
+  const [heightRange, setHeightRange] = useState(heightToRange(DEMO_ME.height));
   const [education, setEducation] = useState(DEMO_ME.education ?? '');
-  const [mbti, setMbti] = useState(DEMO_ME.mbti ?? '');
   const [personalityTags, setPersonalityTags] = useState<string[]>(DEMO_ME.personality_tags ?? []);
   const [hobbies, setHobbies] = useState<string[]>(DEMO_ME.hobbies ?? []);
-  const [bio, setBio] = useState(DEMO_ME.bio === 'デモユーザーです。\nバックエンド未接続でも全画面の動作が確認できます。' ? '' : (DEMO_ME.bio ?? ''));
+
+  // ライフスタイル
+  const [smoking, setSmoking] = useState<string>(DEMO_ME.smoking ?? '');
+  const [drinking, setDrinking] = useState<string>(DEMO_ME.drinking ?? '');
+  const [holidayType, setHolidayType] = useState<string>(DEMO_ME.holiday_type ?? '');
+  const [workAfterMarriage, setWorkAfterMarriage] = useState<string>(DEMO_ME.work_after_marriage ?? '');
 
   // イベント当日用
-  const [oneLineIntro, setOneLineIntro] = useState('');
   const [preferredAge, setPreferredAge] = useState('');
   const [focusPoints, setFocusPoints] = useState<string[]>([]);
   const [marriageIntent, setMarriageIntent] = useState<number>(DEMO_ME.marriage_intent ?? 0);
   const [wantChildren, setWantChildren] = useState<string>(DEMO_ME.want_children ?? '');
-  const [dayMark, setDayMark] = useState('');
-  const [idealPartner, setIdealPartner] = useState('');
 
   const [saving, setSaving] = useState(false);
   const [done, setDone] = useState(false);
@@ -75,7 +95,8 @@ export default function EventProfilePage() {
     setPersonalityTags((prev) => (prev.includes(p) ? prev.filter((x) => x !== p) : prev.length < 5 ? [...prev, p] : prev));
   };
 
-  const canSave = nickname.trim() && oneLineIntro.trim() && preferredAge && focusPoints.length > 0;
+  // 必須：職業・趣味・結婚意欲・子供の希望
+  const canSave = Boolean(occupation.trim() && hobbies.length > 0 && marriageIntent > 0 && wantChildren);
 
   const handleSave = () => {
     if (!canSave) return;
@@ -129,6 +150,43 @@ export default function EventProfilePage() {
     );
   }
 
+  // 選択チップ群を描画する共通コンポーネント
+  const ChipGroup = ({
+    options,
+    selected,
+    onSelect,
+    accent = false,
+  }: {
+    options: { value: string; label: string }[];
+    selected: string | string[];
+    onSelect: (value: string) => void;
+    accent?: boolean;
+  }) => {
+    const isOn = (v: string) => (Array.isArray(selected) ? selected.includes(v) : selected === v);
+    return (
+      <div className="flex flex-wrap gap-1.5">
+        {options.map((o) => (
+          <button
+            key={o.value}
+            type="button"
+            onClick={() => onSelect(o.value)}
+            className={cn(
+              'inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-[11px] transition-colors',
+              isOn(o.value)
+                ? accent
+                  ? 'border-rose bg-rose text-rose-foreground'
+                  : 'border-foreground bg-foreground text-background'
+                : 'border-border bg-background hover:bg-muted'
+            )}
+          >
+            {Array.isArray(selected) && isOn(o.value) && <Check className="h-2.5 w-2.5" aria-hidden />}
+            {o.label}
+          </button>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <>
       <Header showLogout />
@@ -148,7 +206,7 @@ export default function EventProfilePage() {
               イベント用プロフィール
             </h1>
             <p className="text-sm leading-relaxed text-muted-foreground">
-              {event.name} 当日の席順マッチングとグループトークに使われます。
+              {event.name} 当日の席順マッチングとグループトークに使われます。タップで選ぶだけで完成します。
             </p>
           </header>
 
@@ -161,7 +219,7 @@ export default function EventProfilePage() {
                   マイページの情報を引き継ぎました
                 </p>
                 <p className="mt-0.5 text-[11px] leading-relaxed text-muted-foreground">
-                  職業・出身・趣味・自己紹介をマイページから自動入力済みです。必要に応じて編集してください。
+                  職業・趣味・ライフスタイルをマイページから自動入力済みです。必要に応じて編集してください。
                 </p>
               </div>
             </div>
@@ -174,67 +232,27 @@ export default function EventProfilePage() {
             </h2>
             <div className="flex flex-col gap-5">
               <div className="flex flex-col gap-1.5">
-                <Label>当日のニックネーム<span className="ml-1 text-rose">*</span></Label>
-                <Input
-                  value={nickname}
-                  onChange={(e) => setNickname(e.target.value)}
-                  placeholder="グループトークで呼ばれる名前"
-                />
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <Label>職業</Label>
+                <Label>職業<span className="ml-1 text-rose">*</span></Label>
                 <Input
                   value={occupation}
                   onChange={(e) => setOccupation(e.target.value)}
                   placeholder="例：広告代理店勤務"
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex flex-col gap-1.5">
-                  <Label>出身</Label>
-                  <Input
-                    value={hometown}
-                    onChange={(e) => setHometown(e.target.value)}
-                    placeholder="例：徳島県"
-                  />
-                </div>
-                <div className="flex flex-col gap-1.5">
-                  <Label>身長（cm）</Label>
-                  <Input
-                    type="number"
-                    value={height}
-                    onChange={(e) => setHeight(e.target.value)}
-                    placeholder="例：170"
-                  />
-                </div>
+              <div className="flex flex-col gap-1.5">
+                <Label>身長</Label>
+                <ChipGroup
+                  options={HEIGHT_OPTIONS.map((h) => ({ value: h, label: h }))}
+                  selected={heightRange}
+                  onSelect={(v) => setHeightRange((prev) => (prev === v ? '' : v))}
+                />
               </div>
               <div className="flex flex-col gap-1.5">
                 <Label>学歴</Label>
-                <div className="flex flex-wrap gap-1.5">
-                  {EDUCATION_OPTIONS.map((e) => (
-                    <button
-                      key={e}
-                      type="button"
-                      onClick={() => setEducation(e)}
-                      className={cn(
-                        'rounded-full border px-3 py-1.5 text-[11px] transition-colors',
-                        education === e
-                          ? 'border-foreground bg-foreground text-background'
-                          : 'border-border bg-background hover:bg-muted'
-                      )}
-                    >
-                      {e}
-                    </button>
-                  ))}
-                </div>
-              </div>
-              <div className="flex flex-col gap-1.5">
-                <Label>MBTI（任意）</Label>
-                <Input
-                  value={mbti}
-                  onChange={(e) => setMbti(e.target.value.toUpperCase().slice(0, 4))}
-                  placeholder="例：ENFJ"
-                  className="font-mont uppercase"
+                <ChipGroup
+                  options={EDUCATION_OPTIONS.map((e) => ({ value: e, label: e }))}
+                  selected={education}
+                  onSelect={(v) => setEducation((prev) => (prev === v ? '' : v))}
                 />
               </div>
               <div className="flex flex-col gap-1.5">
@@ -246,19 +264,20 @@ export default function EventProfilePage() {
                       type="button"
                       onClick={() => togglePersonality(p)}
                       className={cn(
-                        'rounded-full border px-3 py-1.5 text-[11px] transition-colors',
+                        'inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-[11px] transition-colors',
                         personalityTags.includes(p)
                           ? 'border-foreground bg-foreground text-background'
                           : 'border-border bg-background hover:bg-muted'
                       )}
                     >
+                      {personalityTags.includes(p) && <Check className="h-2.5 w-2.5" aria-hidden />}
                       {p}
                     </button>
                   ))}
                 </div>
               </div>
               <div className="flex flex-col gap-1.5">
-                <Label>趣味（最大6つ）</Label>
+                <Label>趣味（最大6つ）<span className="ml-1 text-rose">*</span></Label>
                 <div className="flex flex-wrap gap-1.5">
                   {HOBBY_SUGGESTIONS.map((h) => (
                     <button
@@ -266,25 +285,90 @@ export default function EventProfilePage() {
                       type="button"
                       onClick={() => toggleHobby(h)}
                       className={cn(
-                        'rounded-full border px-3 py-1.5 text-[11px] transition-colors',
+                        'inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-[11px] transition-colors',
                         hobbies.includes(h)
                           ? 'border-foreground bg-foreground text-background'
                           : 'border-border bg-background hover:bg-muted'
                       )}
                     >
+                      {hobbies.includes(h) && <Check className="h-2.5 w-2.5" aria-hidden />}
                       {h}
                     </button>
                   ))}
                 </div>
               </div>
+            </div>
+          </section>
+
+          {/* ===== ライフスタイル ===== */}
+          <section className="mt-10">
+            <h2 className="mb-1 text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
+              Lifestyle
+            </h2>
+            <p className="mb-4 text-[11px] text-muted-foreground">
+              生活リズムや価値観が近い相手とマッチしやすくなります。
+            </p>
+            <div className="flex flex-col gap-5">
               <div className="flex flex-col gap-1.5">
-                <Label>自己紹介</Label>
-                <textarea
-                  value={bio}
-                  onChange={(e) => setBio(e.target.value)}
-                  rows={3}
-                  placeholder="あなたの人柄が伝わる一文を"
-                  className="w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm leading-relaxed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                <Label>お酒</Label>
+                <ChipGroup
+                  options={DRINKING_VALUES.map((v) => ({ value: v, label: DRINKING_LABEL[v] }))}
+                  selected={drinking}
+                  onSelect={(v) => setDrinking((prev) => (prev === v ? '' : v))}
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label>タバコ</Label>
+                <ChipGroup
+                  options={SMOKING_VALUES.map((v) => ({ value: v, label: SMOKING_LABEL[v] }))}
+                  selected={smoking}
+                  onSelect={(v) => setSmoking((prev) => (prev === v ? '' : v))}
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label>休日</Label>
+                <ChipGroup
+                  options={HOLIDAY_VALUES.map((v) => ({ value: v, label: HOLIDAY_TYPE_LABEL[v] }))}
+                  selected={holidayType}
+                  onSelect={(v) => setHolidayType((prev) => (prev === v ? '' : v))}
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label>結婚後の働き方</Label>
+                <ChipGroup
+                  options={WORK_AFTER_MARRIAGE_VALUES.map((v) => ({ value: v, label: WORK_AFTER_MARRIAGE_LABEL[v] }))}
+                  selected={workAfterMarriage}
+                  onSelect={(v) => setWorkAfterMarriage((prev) => (prev === v ? '' : v))}
+                />
+              </div>
+            </div>
+          </section>
+
+          {/* ===== 結婚観 ===== */}
+          <section className="mt-10">
+            <h2 className="mb-1 text-xs font-mont uppercase tracking-[0.3em] text-rose">
+              Marriage
+            </h2>
+            <p className="mb-4 text-[11px] text-muted-foreground">
+              真剣度のすり合わせに使う大切な項目です。
+            </p>
+            <div className="flex flex-col gap-5">
+              <div className="flex flex-col gap-1.5">
+                <Label>結婚への意欲<span className="ml-1 text-rose">*</span></Label>
+                <ChipGroup
+                  options={MARRIAGE_INTENT_VALUES.map((v) => ({ value: String(v), label: MARRIAGE_INTENT_LABEL[v] }))}
+                  selected={String(marriageIntent)}
+                  onSelect={(v) => setMarriageIntent(Number(v))}
+                  accent
+                />
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <Label>子供の希望<span className="ml-1 text-rose">*</span></Label>
+                <ChipGroup
+                  options={WANT_CHILDREN_VALUES.map((v) => ({ value: v, label: WANT_CHILDREN_LABEL[v] }))}
+                  selected={wantChildren}
+                  onSelect={(v) => setWantChildren(v)}
+                  accent
                 />
               </div>
             </div>
@@ -300,121 +384,22 @@ export default function EventProfilePage() {
             </p>
             <div className="flex flex-col gap-5">
               <div className="flex flex-col gap-1.5">
-                <Label>当日のひとこと自己紹介<span className="ml-1 text-rose">*</span></Label>
-                <textarea
-                  value={oneLineIntro}
-                  onChange={(e) => setOneLineIntro(e.target.value)}
-                  rows={2}
-                  maxLength={80}
-                  placeholder="グループトークの最初に話す自己紹介（80字以内）"
-                  className="w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm leading-relaxed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                />
-                <span className="self-end text-[10px] text-muted-foreground">{oneLineIntro.length}/80</span>
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <Label>希望する相手の年齢層<span className="ml-1 text-rose">*</span></Label>
-                <div className="flex flex-wrap gap-1.5">
-                  {AGE_RANGE_OPTIONS.map((a) => (
-                    <button
-                      key={a}
-                      type="button"
-                      onClick={() => setPreferredAge(a)}
-                      className={cn(
-                        'rounded-full border px-3 py-1.5 text-[11px] transition-colors',
-                        preferredAge === a
-                          ? 'border-rose bg-rose text-rose-foreground'
-                          : 'border-border bg-background hover:bg-muted'
-                      )}
-                    >
-                      {a}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <Label>当日重視したいこと（最大3つ）<span className="ml-1 text-rose">*</span></Label>
-                <div className="flex flex-wrap gap-1.5">
-                  {FOCUS_OPTIONS.map((f) => (
-                    <button
-                      key={f}
-                      type="button"
-                      onClick={() => toggleFocus(f)}
-                      className={cn(
-                        'inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-[11px] transition-colors',
-                        focusPoints.includes(f)
-                          ? 'border-rose bg-rose text-rose-foreground'
-                          : 'border-border bg-background hover:bg-muted'
-                      )}
-                    >
-                      {focusPoints.includes(f) && <Check className="h-2.5 w-2.5" aria-hidden />}
-                      {f}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <Label>結婚への意欲</Label>
-                <div className="flex flex-wrap gap-1.5">
-                  {MARRIAGE_INTENT_VALUES.map((v) => (
-                    <button
-                      key={v}
-                      type="button"
-                      onClick={() => setMarriageIntent(v)}
-                      className={cn(
-                        'rounded-full border px-3 py-1.5 text-[11px] transition-colors',
-                        marriageIntent === v
-                          ? 'border-rose bg-rose text-rose-foreground'
-                          : 'border-border bg-background hover:bg-muted'
-                      )}
-                    >
-                      {MARRIAGE_INTENT_LABEL[v]}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <Label>子供の希望</Label>
-                <div className="flex flex-wrap gap-1.5">
-                  {WANT_CHILDREN_VALUES.map((v) => (
-                    <button
-                      key={v}
-                      type="button"
-                      onClick={() => setWantChildren(v)}
-                      className={cn(
-                        'rounded-full border px-3 py-1.5 text-[11px] transition-colors',
-                        wantChildren === v
-                          ? 'border-rose bg-rose text-rose-foreground'
-                          : 'border-border bg-background hover:bg-muted'
-                      )}
-                    >
-                      {WANT_CHILDREN_LABEL[v]}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-1.5">
-                <Label>こんな人と出会いたい</Label>
-                <textarea
-                  value={idealPartner}
-                  onChange={(e) => setIdealPartner(e.target.value)}
-                  rows={2}
-                  maxLength={100}
-                  placeholder="理想の相手像・大切にしたい関係性など（任意）"
-                  className="w-full rounded-2xl border border-border bg-background px-4 py-3 text-sm leading-relaxed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                <Label>希望する相手の年齢層</Label>
+                <ChipGroup
+                  options={AGE_RANGE_OPTIONS.map((a) => ({ value: a, label: a }))}
+                  selected={preferredAge}
+                  onSelect={(v) => setPreferredAge((prev) => (prev === v ? '' : v))}
+                  accent
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <Label>当日の目印・服装</Label>
-                <Input
-                  value={dayMark}
-                  onChange={(e) => setDayMark(e.target.value)}
-                  placeholder="例：白いシャツ・黒縁メガネ（受付でスタッフが確認します）"
+                <Label>当日重視したいこと（最大3つ）</Label>
+                <ChipGroup
+                  options={FOCUS_OPTIONS.map((f) => ({ value: f, label: f }))}
+                  selected={focusPoints}
+                  onSelect={toggleFocus}
+                  accent
                 />
               </div>
             </div>
@@ -439,7 +424,12 @@ export default function EventProfilePage() {
                 </>
               )}
             </Button>
-            <p className="mt-3 text-center text-[10px] text-muted-foreground">
+            {!canSave && (
+              <p className="mt-3 text-center text-[10px] text-rose">
+                職業・趣味・結婚への意欲・子供の希望は必須です
+              </p>
+            )}
+            <p className="mt-2 text-center text-[10px] text-muted-foreground">
               開催前であればいつでも編集できます
             </p>
           </div>
