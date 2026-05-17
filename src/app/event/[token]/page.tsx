@@ -20,6 +20,7 @@ import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 import { findDemoEvent, hasEventTicket, DEMO_EVENT_INTENTIONS, type EventIntention } from '@/lib/demo';
 import { IntentionCard } from './IntentionCard';
 
@@ -30,6 +31,8 @@ export default function EventDetailPage() {
   const [intention, setIntention] = useState<EventIntention | null>(
     DEMO_EVENT_INTENTIONS[params.token] ?? null
   );
+  // メニューで開いているセクション（チケット保有者用）
+  const [openSection, setOpenSection] = useState<'intention' | 'schedule' | 'highlights' | null>(null);
 
   useEffect(() => {
     setHasTicket(hasEventTicket(params.token));
@@ -129,15 +132,30 @@ export default function EventDetailPage() {
               <div className="grid grid-cols-3 gap-2">
                 <EventMenuItem href={`/event/${event.token}/profile`} Icon={ClipboardList} label="プロフィール入力" />
                 <EventMenuItem href={`/event/${event.token}/mid`} Icon={Heart} label="お相手を評価する" />
-                <EventMenuItem href={`/event/${event.token}#intention`} Icon={Target} label="今回の試み" />
-                <EventMenuItem href={`/event/${event.token}#schedule`} Icon={Clock} label="タイムスケジュール" />
-                <EventMenuItem href={`/event/${event.token}#highlights`} Icon={Sparkles} label="イベントの見どころ" />
+                <EventMenuItem
+                  Icon={Target}
+                  label="今回の試み"
+                  active={openSection === 'intention'}
+                  onClick={() => setOpenSection((s) => (s === 'intention' ? null : 'intention'))}
+                />
+                <EventMenuItem
+                  Icon={Clock}
+                  label="タイムスケジュール"
+                  active={openSection === 'schedule'}
+                  onClick={() => setOpenSection((s) => (s === 'schedule' ? null : 'schedule'))}
+                />
+                <EventMenuItem
+                  Icon={Sparkles}
+                  label="イベントの見どころ"
+                  active={openSection === 'highlights'}
+                  onClick={() => setOpenSection((s) => (s === 'highlights' ? null : 'highlights'))}
+                />
               </div>
             </section>
           )}
 
-          {/* 今回の試み（チケット保有者・参加予定/開催中のみ表示） */}
-          {hasTicket && event.status !== 'past' && (
+          {/* 今回の試み（メニューで「今回の試み」を選択時のみ表示） */}
+          {hasTicket && event.status !== 'past' && openSection === 'intention' && (
             <section id="intention" className="mb-6 scroll-mt-20">
               <IntentionCard
                 initialIntention={intention}
@@ -171,8 +189,9 @@ export default function EventDetailPage() {
             </section>
           )}
 
-          {/* ハイライト */}
-          {event.highlights.length > 0 && (
+          {/* ハイライト（未保有者は常時表示／保有者はメニュー選択時） */}
+          {event.highlights.length > 0 &&
+            (!hasTicket || event.status === 'past' || openSection === 'highlights') && (
             <section id="highlights" className="mb-6 scroll-mt-20">
               <h2 className="mb-3 text-xs tracking-[0.15em] text-muted-foreground">
                 イベントの見どころ
@@ -188,8 +207,9 @@ export default function EventDetailPage() {
             </section>
           )}
 
-          {/* スケジュール */}
-          {event.schedule.length > 0 && (
+          {/* スケジュール（未保有者は常時表示／保有者はメニュー選択時） */}
+          {event.schedule.length > 0 &&
+            (!hasTicket || event.status === 'past' || openSection === 'schedule') && (
             <section id="schedule" className="mb-6 scroll-mt-20">
               <h2 className="mb-3 text-xs tracking-[0.15em] text-muted-foreground">
                 当日のタイムスケジュール
@@ -299,19 +319,42 @@ function EventMenuItem({
   href,
   Icon,
   label,
+  active,
+  onClick,
 }: {
-  href: string;
+  href?: string;
   Icon: typeof Calendar;
   label: string;
+  active?: boolean;
+  onClick?: () => void;
 }) {
-  return (
-    <Link
-      href={href}
-      className="flex aspect-square flex-col items-center justify-center gap-1.5 rounded-2xl border border-border bg-card p-2 text-center transition-colors hover:border-foreground/30 hover:bg-muted/40"
-    >
-      <Icon className="h-5 w-5 text-rose" strokeWidth={1.7} aria-hidden />
+  const cls = cn(
+    'flex aspect-square flex-col items-center justify-center gap-1.5 rounded-2xl border p-2 text-center transition-colors',
+    active
+      ? 'border-foreground bg-foreground text-background'
+      : 'border-border bg-card hover:border-foreground/30 hover:bg-muted/40'
+  );
+  const inner = (
+    <>
+      <Icon
+        className={cn('h-5 w-5', active ? 'text-background' : 'text-rose')}
+        strokeWidth={1.7}
+        aria-hidden
+      />
       <span className="text-[11px] font-medium leading-tight">{label}</span>
-    </Link>
+    </>
+  );
+  if (href) {
+    return (
+      <Link href={href} className={cls}>
+        {inner}
+      </Link>
+    );
+  }
+  return (
+    <button type="button" onClick={onClick} className={cls}>
+      {inner}
+    </button>
   );
 }
 
