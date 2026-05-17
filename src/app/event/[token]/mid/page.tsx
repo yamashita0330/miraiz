@@ -112,12 +112,14 @@ export default function MIDHubPage() {
 
   return (
     <>
-      {/* 評価送信トースト */}
+      {/* 評価送信トースト（画面中央） */}
       {submittedNotice && (
-        <div className="fixed inset-x-0 top-4 z-50 flex justify-center px-4">
-          <div className="flex items-center gap-2 rounded-full bg-foreground px-5 py-3 text-background shadow-lg">
-            <CheckCircle2 className="h-4 w-4 text-success" strokeWidth={2.2} aria-hidden />
-            <span className="text-sm font-semibold">評価を送信しました</span>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/30 px-6">
+          <div className="flex flex-col items-center gap-3 rounded-3xl bg-background px-10 py-8 shadow-xl">
+            <div className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-success text-success-foreground">
+              <CheckCircle2 className="h-7 w-7" strokeWidth={2.2} aria-hidden />
+            </div>
+            <span className="text-base font-semibold">評価を送信しました</span>
           </div>
         </div>
       )}
@@ -144,16 +146,16 @@ export default function MIDHubPage() {
       <main className="min-h-screen bg-background pb-24">
         <div className="mx-auto max-w-xl px-6 py-8">
           {/* 進捗バー */}
-          <div className="mb-6">
-            <div className="flex items-baseline justify-between mb-2">
-              <span className="text-[11px] tracking-wider text-muted-foreground">
+          <div className="mb-6 rounded-2xl border border-border bg-card p-5">
+            <div className="flex items-baseline justify-between mb-3">
+              <span className="text-sm font-semibold tracking-wide">
                 会話の進捗
               </span>
-              <span className="font-mont text-sm font-medium">
-                {completed}/{total}
+              <span className="font-mont text-xl font-semibold">
+                {completed}<span className="text-sm text-muted-foreground">/{total}</span>
               </span>
             </div>
-            <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
+            <div className="h-3 w-full overflow-hidden rounded-full bg-muted">
               <div
                 className="h-full rounded-full bg-rose transition-all duration-500"
                 style={{ width: `${(completed / total) * 100}%` }}
@@ -236,8 +238,8 @@ export default function MIDHubPage() {
 
           {/* スケジュール一覧 */}
           <section>
-            <h2 className="mb-4 text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-              Schedule
+            <h2 className="mb-4 text-xs tracking-[0.15em] text-muted-foreground">
+              会話スケジュール
             </h2>
             <ul className="flex flex-col gap-2">
               {filteredConversations.map((conv) => (
