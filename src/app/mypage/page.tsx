@@ -117,11 +117,27 @@ export default async function MyPage() {
             />
           </section>
 
-          {/* ============= MIRAIZ クイックアクセス（3装置・1行） ============= */}
-          <section className="mt-6">
-            <div className="grid grid-cols-3 gap-2">
+          {/* ============= 私の通知表（大きく目立つボタン） ============= */}
+          <Link
+            href="/tsuchihyo"
+            className="group mt-6 flex items-center gap-4 overflow-hidden rounded-2xl border-2 border-rose bg-rose p-5 text-rose-foreground transition-opacity hover:opacity-95"
+          >
+            <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-rose-foreground/15">
+              <FileBarChart2 className="h-6 w-6" strokeWidth={1.8} aria-hidden />
+            </span>
+            <div className="flex-1">
+              <p className="text-base font-bold leading-snug">私の通知表を見る</p>
+              <p className="mt-0.5 text-[11px] opacity-80">
+                イベントでのあなたの印象・順位・改善ポイント
+              </p>
+            </div>
+            <ArrowRight className="h-5 w-5 shrink-0 transition-transform group-hover:translate-x-1" aria-hidden />
+          </Link>
+
+          {/* ============= クイックアクセス ============= */}
+          <section className="mt-3">
+            <div className="grid grid-cols-2 gap-2">
               <QuickIcon href="/events" Icon={Ticket} label="参加チケット" />
-              <QuickIcon href="/tsuchihyo" Icon={FileBarChart2} label="私の通知表" />
               <QuickIcon href="/advisor" Icon={HeartHandshake} label="アドバイザーに相談" />
             </div>
           </section>

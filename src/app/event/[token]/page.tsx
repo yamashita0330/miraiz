@@ -13,6 +13,8 @@ import {
   ChevronRight,
   ClipboardList,
   ArrowRight,
+  Heart,
+  Target,
 } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { BottomNav } from '@/components/BottomNav';
@@ -118,9 +120,25 @@ export default function EventDetailPage() {
             <InfoLine Icon={Users} label="定員" value={`${event.capacity}名`} />
           </section>
 
-          {/* 今回の試み（チケット保有者・参加予定/開催中のみ表示） */}
+          {/* イベントメニュー（チケット保有者向けクイック導線） */}
           {hasTicket && event.status !== 'past' && (
             <section className="mb-6">
+              <h2 className="mb-3 text-xs tracking-[0.15em] text-muted-foreground">
+                イベントメニュー
+              </h2>
+              <div className="grid grid-cols-3 gap-2">
+                <EventMenuItem href={`/event/${event.token}/profile`} Icon={ClipboardList} label="プロフィール入力" />
+                <EventMenuItem href={`/event/${event.token}/mid`} Icon={Heart} label="お相手を評価する" />
+                <EventMenuItem href={`/event/${event.token}#intention`} Icon={Target} label="今回の試み" />
+                <EventMenuItem href={`/event/${event.token}#schedule`} Icon={Clock} label="タイムスケジュール" />
+                <EventMenuItem href={`/event/${event.token}#highlights`} Icon={Sparkles} label="イベントの見どころ" />
+              </div>
+            </section>
+          )}
+
+          {/* 今回の試み（チケット保有者・参加予定/開催中のみ表示） */}
+          {hasTicket && event.status !== 'past' && (
+            <section id="intention" className="mb-6 scroll-mt-20">
               <IntentionCard
                 initialIntention={intention}
                 eventToken={event.token}
@@ -155,7 +173,7 @@ export default function EventDetailPage() {
 
           {/* ハイライト */}
           {event.highlights.length > 0 && (
-            <section className="mb-6">
+            <section id="highlights" className="mb-6 scroll-mt-20">
               <h2 className="mb-3 text-xs tracking-[0.15em] text-muted-foreground">
                 イベントの見どころ
               </h2>
@@ -172,7 +190,7 @@ export default function EventDetailPage() {
 
           {/* スケジュール */}
           {event.schedule.length > 0 && (
-            <section className="mb-6">
+            <section id="schedule" className="mb-6 scroll-mt-20">
               <h2 className="mb-3 text-xs tracking-[0.15em] text-muted-foreground">
                 当日のタイムスケジュール
               </h2>
@@ -274,6 +292,26 @@ function InfoLine({
       </span>
       <span className="flex-1 font-medium">{value}</span>
     </div>
+  );
+}
+
+function EventMenuItem({
+  href,
+  Icon,
+  label,
+}: {
+  href: string;
+  Icon: typeof Calendar;
+  label: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className="flex aspect-square flex-col items-center justify-center gap-1.5 rounded-2xl border border-border bg-card p-2 text-center transition-colors hover:border-foreground/30 hover:bg-muted/40"
+    >
+      <Icon className="h-5 w-5 text-rose" strokeWidth={1.7} aria-hidden />
+      <span className="text-[11px] font-medium leading-tight">{label}</span>
+    </Link>
   );
 }
 
