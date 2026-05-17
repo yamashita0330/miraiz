@@ -199,11 +199,11 @@ export default function EventProfilePage() {
             <ArrowLeft className="h-3 w-3" aria-hidden />イベント詳細
           </Link>
           <header className="flex flex-col gap-2">
-            <span className="font-mont text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
-              Event Profile
+            <span className="text-[11px] font-semibold tracking-[0.2em] text-muted-foreground">
+              イベント用プロフィール
             </span>
             <h1 className="text-2xl font-semibold leading-tight tracking-tight">
-              イベント用プロフィール
+              当日の自分を伝える
             </h1>
             <p className="text-sm leading-relaxed text-muted-foreground">
               {event.name} 当日の席順マッチングとグループトークに使われます。タップで選ぶだけで完成します。
@@ -227,8 +227,8 @@ export default function EventProfilePage() {
 
           {/* ===== 基本プロフィール ===== */}
           <section className="mt-8">
-            <h2 className="mb-4 text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-              Basic
+            <h2 className="mb-4 text-sm font-semibold tracking-tight text-foreground">
+              基本プロフィール
             </h2>
             <div className="flex flex-col gap-5">
               <div className="flex flex-col gap-1.5">
@@ -302,8 +302,8 @@ export default function EventProfilePage() {
 
           {/* ===== ライフスタイル ===== */}
           <section className="mt-10">
-            <h2 className="mb-1 text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-              Lifestyle
+            <h2 className="mb-1 text-sm font-semibold tracking-tight text-foreground">
+              ライフスタイル
             </h2>
             <p className="mb-4 text-[11px] text-muted-foreground">
               生活リズムや価値観が近い相手とマッチしやすくなります。
@@ -346,8 +346,8 @@ export default function EventProfilePage() {
 
           {/* ===== 結婚観 ===== */}
           <section className="mt-10">
-            <h2 className="mb-1 text-xs font-mont uppercase tracking-[0.3em] text-rose">
-              Marriage
+            <h2 className="mb-1 text-sm font-semibold tracking-tight text-rose">
+              結婚観
             </h2>
             <p className="mb-4 text-[11px] text-muted-foreground">
               真剣度のすり合わせに使う大切な項目です。
@@ -376,8 +376,8 @@ export default function EventProfilePage() {
 
           {/* ===== イベント当日用 ===== */}
           <section className="mt-10">
-            <h2 className="mb-1 text-xs font-mont uppercase tracking-[0.3em] text-rose">
-              For the Event
+            <h2 className="mb-1 text-sm font-semibold tracking-tight text-rose">
+              当日のマッチング
             </h2>
             <p className="mb-4 text-[11px] text-muted-foreground">
               当日のマッチング精度を高める項目です。
