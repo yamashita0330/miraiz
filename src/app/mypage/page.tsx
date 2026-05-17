@@ -120,9 +120,9 @@ export default async function MyPage() {
           {/* ============= 私の通知表（大きく目立つボタン） ============= */}
           <Link
             href="/tsuchihyo"
-            className="group mt-6 flex items-center gap-4 overflow-hidden rounded-2xl border-2 border-rose bg-rose p-5 text-rose-foreground transition-opacity hover:opacity-95"
+            className="group mt-6 flex items-center gap-4 overflow-hidden rounded-2xl border-2 border-foreground bg-foreground p-5 text-background transition-opacity hover:opacity-95"
           >
-            <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-rose-foreground/15">
+            <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-background/15">
               <FileBarChart2 className="h-6 w-6" strokeWidth={1.8} aria-hidden />
             </span>
             <div className="flex-1">
