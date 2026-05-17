@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import { Clock, Check, ChevronRight, ArrowLeft, User as UserIcon, Sparkles, Search, X, CheckCircle2 } from 'lucide-react';
+import { Check, ChevronRight, ArrowLeft, User as UserIcon, Sparkles, Search, X, CheckCircle2 } from 'lucide-react';
 import { BottomNav } from '@/components/BottomNav';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
@@ -81,9 +81,6 @@ export default function MIDHubPage() {
       prev.map((c) => {
         if (c.turn === turn) {
           return { ...c, status: 'completed', evaluation };
-        }
-        if (c.turn === turn + 1 && c.status === 'upcoming') {
-          return { ...c, status: 'in_progress' };
         }
         return c;
       })
@@ -272,8 +269,6 @@ function ConversationRow({
   if (!partner) return null;
 
   const isCompleted = conversation.status === 'completed';
-  const isInProgress = conversation.status === 'in_progress';
-  const isUpcoming = conversation.status === 'upcoming';
 
   return (
     <li>
@@ -282,9 +277,9 @@ function ConversationRow({
         onClick={onTap}
         className={cn(
           'flex w-full items-center gap-3 rounded-2xl border px-4 py-3 text-left transition-colors',
-          isCompleted && 'border-success bg-success-50 hover:bg-success-50/80',
-          isInProgress && 'border-rose bg-rose-50 hover:bg-rose-100',
-          isUpcoming && 'border-border bg-card hover:bg-muted'
+          isCompleted
+            ? 'border-success bg-success-50 hover:bg-success-50/80'
+            : 'border-border bg-card hover:bg-muted'
         )}
       >
         <span className="font-mont text-[10px] font-medium text-muted-foreground w-6">
@@ -298,14 +293,8 @@ function ConversationRow({
           </p>
         </div>
         {isCompleted && (
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-success text-success-foreground">
-            <Check className="h-3.5 w-3.5" strokeWidth={2.5} aria-hidden />
-          </span>
-        )}
-        {isInProgress && (
-          <span className="inline-flex items-center gap-1 text-[10px] font-medium text-rose">
-            <Clock className="h-3 w-3" aria-hidden />
-            進行中
+          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-success text-success-foreground">
+            <Check className="h-4 w-4" strokeWidth={2.5} aria-hidden />
           </span>
         )}
       </button>
