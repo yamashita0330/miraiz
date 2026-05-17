@@ -520,6 +520,7 @@ function HeroSummarySection() {
           icon="◯"
           label="強み"
           mainValue={String(Math.round(latest.scores[best.key]))}
+          unit="点"
           subValue={best.label}
           tone="positive"
         />
@@ -527,6 +528,7 @@ function HeroSummarySection() {
           icon="!"
           label="磨きたい"
           mainValue={String(Math.round(latest.scores[worst.key]))}
+          unit="点"
           subValue={worst.label}
           tone="warning"
         />
@@ -541,7 +543,8 @@ function HeroSummarySection() {
           icon="♥"
           label="両想い"
           mainValue={String(stats.mutual_count)}
-          subValue="組"
+          unit="組"
+          subValue="成立"
           tone="rose"
         />
       </div>
@@ -554,12 +557,14 @@ function BigCard({
   label,
   mainValue,
   subValue,
+  unit,
   tone,
 }: {
   icon: string;
   label: string;
   mainValue: string;
   subValue: string;
+  unit?: string;
   tone: 'positive' | 'warning' | 'neutral' | 'rose';
 }) {
   const styles = {
@@ -576,6 +581,7 @@ function BigCard({
       </div>
       <p className="mt-3 font-mont text-3xl font-semibold leading-none tracking-tight text-foreground">
         {mainValue}
+        {unit && <span className="ml-0.5 text-lg font-semibold">{unit}</span>}
       </p>
       <p className="mt-2 text-xs font-medium text-foreground">{subValue}</p>
     </div>

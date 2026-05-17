@@ -29,7 +29,7 @@ export default function PartnersIndexPage() {
             <h1 className="text-3xl font-semibold leading-tight tracking-tight">
               加盟店プログラム
             </h1>
-            <p className="text-sm leading-relaxed text-muted-foreground">
+            <p className="text-xs leading-relaxed tracking-tight text-muted-foreground">
               恋の通知表のスコアを上げる、徳島の信頼パートナー。<br />
               恋フェス会員価格で受けられます。
             </p>
