@@ -132,8 +132,8 @@ export default function EventDetailPage() {
           {/* 過去イベント：振り返り表示 */}
           {hasTicket && event.status === 'past' && intention && (
             <section className="mb-6 rounded-2xl border border-border bg-card p-5">
-              <p className="mb-2 text-[10px] font-mont uppercase tracking-[0.3em] text-muted-foreground">
-                Past Intention
+              <p className="mb-2 text-[10px] tracking-[0.15em] text-muted-foreground">
+                前回の試み
               </p>
               <p className="text-sm font-semibold mb-3">この日の試み</p>
               <div className="flex flex-wrap gap-1.5">
@@ -156,8 +156,8 @@ export default function EventDetailPage() {
           {/* ハイライト */}
           {event.highlights.length > 0 && (
             <section className="mb-6">
-              <h2 className="mb-3 text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-                Highlights
+              <h2 className="mb-3 text-xs tracking-[0.15em] text-muted-foreground">
+                イベントの見どころ
               </h2>
               <ul className="flex flex-col gap-2 rounded-2xl border border-border bg-card p-5">
                 {event.highlights.map((h, i) => (
@@ -173,8 +173,8 @@ export default function EventDetailPage() {
           {/* スケジュール */}
           {event.schedule.length > 0 && (
             <section className="mb-6">
-              <h2 className="mb-3 text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-                Schedule
+              <h2 className="mb-3 text-xs tracking-[0.15em] text-muted-foreground">
+                当日のタイムスケジュール
               </h2>
               <ul className="flex flex-col gap-2">
                 {event.schedule.map((s, i) => (

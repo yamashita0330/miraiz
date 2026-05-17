@@ -146,8 +146,8 @@ export default function MIDHubPage() {
           {/* 進捗バー */}
           <div className="mb-6">
             <div className="flex items-baseline justify-between mb-2">
-              <span className="text-[11px] uppercase tracking-wider text-muted-foreground">
-                Conversation Progress
+              <span className="text-[11px] tracking-wider text-muted-foreground">
+                会話の進捗
               </span>
               <span className="font-mont text-sm font-medium">
                 {completed}/{total}
@@ -189,8 +189,8 @@ export default function MIDHubPage() {
             >
               <PartnerAvatar partnerId={inProgress.partner_id} large />
               <div className="flex-1">
-                <p className="text-[10px] uppercase tracking-wider text-rose font-medium">
-                  Now Talking ・ Turn {inProgress.turn}
+                <p className="text-[10px] tracking-wider text-rose font-medium">
+                  会話中 ・ {inProgress.turn}人目
                 </p>
                 <p className="mt-1 text-sm font-semibold">
                   {findDemoMember(inProgress.partner_id)?.name}さんとの会話
@@ -337,7 +337,7 @@ function ConversationRow({
 
 function PartnerAvatar({ partnerId, large }: { partnerId: string; large?: boolean }) {
   const partner = findDemoMember(partnerId);
-  const size = large ? 'h-14 w-14' : 'h-10 w-10';
+  const size = large ? 'h-[88px] w-[88px]' : 'h-12 w-12';
   return (
     <div className={cn('relative shrink-0 overflow-hidden rounded-full border border-border bg-muted', size)}>
       {partner?.photo_url ? (
