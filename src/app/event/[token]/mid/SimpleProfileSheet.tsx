@@ -126,10 +126,10 @@ export function SimpleProfileSheet({ partner, conversation, onClose, onEvaluate 
                 <Sparkles className="h-4 w-4" strokeWidth={1.8} aria-hidden />
               </span>
               <div className="flex flex-1 flex-col gap-0.5">
-                <p className="text-sm font-medium text-muted-foreground">
+                <p className="text-sm font-normal text-muted-foreground/60">
                   共通点 <span className="font-mont">{totalCommonCount}</span>個
                 </p>
-                <p className="text-[10px] text-muted-foreground/80">
+                <p className="text-[10px] text-muted-foreground/50">
                   ローズ色で表示された項目があなたとの共通点です
                 </p>
               </div>
