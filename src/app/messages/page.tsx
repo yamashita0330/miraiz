@@ -112,7 +112,7 @@ export default async function MessagesListPage() {
                       href={`/messages/${thread.id}`}
                       className="flex items-center gap-4 py-5 transition-opacity hover:opacity-70"
                     >
-                      <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-full border border-border bg-muted">
+                      <div className="relative h-[72px] w-[72px] shrink-0 overflow-hidden rounded-full border border-border bg-muted">
                         {partner?.photo_url ? (
                           // eslint-disable-next-line @next/next/no-img-element
                           <img src={partner.photo_url} alt="" className="h-full w-full object-cover" />

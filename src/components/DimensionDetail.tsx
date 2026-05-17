@@ -47,7 +47,7 @@ export function DimensionDetail({ dimension, score, averageScore }: Props) {
           <section>
             <div className="mb-3 flex items-center gap-2">
               <ThumbsUp className="h-3.5 w-3.5" strokeWidth={1.8} aria-hidden />
-              <h4 className="text-[11px] font-mont uppercase tracking-[0.3em]">Good Points</h4>
+              <h4 className="text-[11px] font-semibold tracking-[0.1em]">良かった点</h4>
             </div>
             <ul className="flex flex-col gap-3">
               {detail.positives.map((p) => (
@@ -77,7 +77,7 @@ export function DimensionDetail({ dimension, score, averageScore }: Props) {
           <section>
             <div className="mb-3 flex items-center gap-2">
               <AlertCircle className="h-3.5 w-3.5" strokeWidth={1.8} aria-hidden />
-              <h4 className="text-[11px] font-mont uppercase tracking-[0.3em]">Improvement Points</h4>
+              <h4 className="text-[11px] font-semibold tracking-[0.1em]">改善ポイント</h4>
             </div>
             <ul className="flex flex-col gap-4">
               {detail.improvements.map((imp) => {

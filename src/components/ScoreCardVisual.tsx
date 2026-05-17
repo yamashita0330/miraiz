@@ -49,8 +49,8 @@ export function ScoreCardVisual({ variant = 'full', showPartnerCTA = true }: Pro
       {!compact && (
         <header className="flex flex-col gap-2">
           <div className="flex items-baseline justify-between">
-            <span className="font-mont text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
-              Last Evaluation
+            <span className="text-[10px] tracking-[0.2em] text-muted-foreground">
+              前回の評価
             </span>
             <span className="font-mont text-[10px] text-muted-foreground">{s.date}</span>
           </div>
@@ -123,8 +123,8 @@ export function ScoreCardVisual({ variant = 'full', showPartnerCTA = true }: Pro
       {/* 項目別スコア（2列グリッド・コンパクト） */}
       <section className="flex flex-col gap-3">
         <div className="flex items-baseline justify-between">
-          <h3 className="text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-            Score by Item
+          <h3 className="text-xs tracking-[0.15em] text-muted-foreground">
+            項目別スコア
           </h3>
           <span className="text-[10px] text-muted-foreground">学術根拠＋平均比較</span>
         </div>

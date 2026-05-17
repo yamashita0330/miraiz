@@ -54,8 +54,8 @@ export default function TsuchihyoPage() {
           {step === 'preview' && (
             <div className="flex flex-col gap-8">
               <header className="flex flex-col gap-3">
-                <span className="font-mont text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
-                  Koi-no-Tsuchihyo
+                <span className="text-[10px] tracking-[0.2em] text-muted-foreground">
+                  恋の通知表
                 </span>
                 <h1 className="text-2xl font-semibold leading-tight tracking-tight">
                   {s.eventTitle}<br />通知表が届きました
@@ -68,8 +68,8 @@ export default function TsuchihyoPage() {
 
               {/* ===== 無料: 上位%ヒーロー ===== */}
               <section className="rounded-3xl border-2 border-foreground bg-foreground p-7 text-background">
-                <p className="font-mont text-[10px] uppercase tracking-[0.4em] opacity-60">
-                  Your Rank — Free
+                <p className="text-[10px] tracking-[0.2em] opacity-60">
+                  あなたの順位（無料公開）
                 </p>
                 <div className="mt-3 flex items-baseline gap-2">
                   <span className="text-sm opacity-70">上位</span>
@@ -209,8 +209,8 @@ export default function TsuchihyoPage() {
               <div id="look" className="scroll-mt-24 flex flex-col gap-12">
                 <LookFeedbackSection />
                 <section className="border-t border-border pt-12">
-                  <h2 className="mb-6 text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-                    Score Detail
+                  <h2 className="mb-6 text-xs tracking-[0.15em] text-muted-foreground">
+                    スコア詳細
                   </h2>
                   <ScoreCardVisual variant="full" showPartnerCTA />
                 </section>
@@ -220,8 +220,8 @@ export default function TsuchihyoPage() {
               <div id="comm" className="scroll-mt-24">
                 <section className="border-t border-border pt-12">
                   <div className="mb-6 flex items-baseline justify-between">
-                    <h2 className="text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-                      Communication（項目別フィードバック）
+                    <h2 className="text-xs tracking-[0.15em] text-muted-foreground">
+                      項目別フィードバック
                     </h2>
                   </div>
                   <div className="flex flex-col gap-3">
@@ -244,8 +244,8 @@ export default function TsuchihyoPage() {
                 </section>
 
                 <section className="flex flex-col gap-6 border-t border-border pt-12">
-                  <h2 className="text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-                    YES / NO
+                  <h2 className="text-xs tracking-[0.15em] text-muted-foreground">
+                    イベントでの評価
                   </h2>
                   <div className="rounded-2xl border border-border p-8 text-center">
                     <p className="text-xs uppercase tracking-wider text-muted-foreground">
@@ -279,8 +279,8 @@ export default function TsuchihyoPage() {
                 className="group flex items-center gap-4 rounded-3xl border-2 border-rose bg-rose-50 p-6 transition-colors hover:bg-rose-100"
               >
                 <div className="flex flex-1 flex-col gap-1">
-                  <span className="font-mont text-[10px] uppercase tracking-[0.3em] text-rose">
-                    Next Step
+                  <span className="text-[10px] tracking-[0.15em] text-rose">
+                    次のステップ
                   </span>
                   <p className="text-base font-semibold leading-snug">
                     磨きどころを、加盟店で整える
@@ -315,8 +315,8 @@ function EventSwitcher({
   return (
     <section className="-mx-6">
       <div className="px-6 mb-2 flex items-baseline justify-between">
-        <span className="font-mont text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-          Event
+        <span className="text-[10px] tracking-[0.15em] text-muted-foreground">
+          参加イベント
         </span>
         <span className="text-[10px] text-muted-foreground">参加 {events.length} 回</span>
       </div>
@@ -590,8 +590,8 @@ function EventHistorySection() {
   return (
     <section className="flex flex-col gap-6 border-t border-border pt-12">
       <div className="flex items-baseline justify-between">
-        <h2 className="text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-          Past Events
+        <h2 className="text-xs tracking-[0.15em] text-muted-foreground">
+          参加履歴
         </h2>
         <span className="text-[10px] text-muted-foreground">
           参加 {history.length} 回
@@ -686,8 +686,8 @@ function SwipeStatsSection() {
 
   return (
     <section className="flex flex-col gap-6 border-t border-border pt-12">
-      <h2 className="text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-        Swipe Stats
+      <h2 className="text-xs tracking-[0.15em] text-muted-foreground">
+        スワイプ統計
       </h2>
 
       <div className="grid grid-cols-2 gap-3">
@@ -781,8 +781,8 @@ function SelfEsteemTimelineSection() {
 
   return (
     <section className="flex flex-col gap-6 border-t border-border pt-12">
-      <h2 className="text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-        Self-Esteem
+      <h2 className="text-xs tracking-[0.15em] text-muted-foreground">
+        自己肯定感
       </h2>
 
       {/* タイムライン */}
@@ -883,15 +883,15 @@ function LookFeedbackSection() {
     <section className="flex flex-col gap-6 border-t border-border pt-12">
       <div className="flex items-baseline justify-between">
         <div>
-          <h2 className="text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-            Look Feedback
+          <h2 className="text-xs tracking-[0.15em] text-muted-foreground">
+            見た目フィードバック
           </h2>
           <p className="mt-2 text-[11px] text-muted-foreground">
             参加者{total}人からの匿名集計
           </p>
         </div>
         <div className="text-right">
-          <p className="font-mont text-[9px] uppercase tracking-wider text-muted-foreground">Average</p>
+          <p className="text-[9px] tracking-wider text-muted-foreground">平均点</p>
           <p className="font-mont text-3xl font-semibold leading-none">
             {avg}
             <span className="ml-0.5 text-xs text-muted-foreground">点</span>

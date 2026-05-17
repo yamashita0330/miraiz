@@ -33,8 +33,8 @@ export function EventComments({ initialFilter = 'all' }: { initialFilter?: Filte
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-baseline justify-between">
-        <h3 className="text-xs font-mont uppercase tracking-[0.3em] text-muted-foreground">
-          Voices from the Event
+        <h3 className="text-xs tracking-[0.15em] text-muted-foreground">
+          参加者からの声
         </h3>
         <span className="font-mont text-xs text-muted-foreground">
           {filtered.length}件
